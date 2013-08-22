@@ -8,38 +8,40 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QTKit/QTKit.h>
-#include "VideoSnap.h"
 
 // logging helpers
-#ifndef videosnap_VideoSnap_h
 #define error(...) fprintf(stderr, __VA_ARGS__)
 #define console(...) printf(__VA_ARGS__)
 #define verbose(...) (is_verbose && fprintf(stderr, __VA_ARGS__))
-#endif
 
+// version
+#define VERSION @"0.0.1"
+
+// defaults
+#define DEFAULT_RECORDING_DELAY    @0.0
+#define DEFAULT_RECORDING_DURATION @6.0
+#define DEFAULT_RECORDING_FILENAME @"movie.mov"
+#define DEFAULT_RECORDING_SIZE     @"SD480"
+#define DEFAULT_VIDEO_SIZES        @[@"120", @"240", @"SD480", @"HD720"]
 
 // default verbose flag
 BOOL is_verbose = NO;
 
-// versioning (bump up for new releases)
-NSString *VERSION = @"0.0.1";
-
-
 // VideoSnap
 @interface VideoSnap : NSObject {
 
-  QTCaptureSession            *captureSession;          // session
-  QTCaptureMovieFileOutput    *captureMovieFileOutput;  // file output
-  QTCaptureDeviceInput        *captureVideoDeviceInput; // video input
-  QTCaptureDeviceInput        *captureAudioDeviceInput; // audio input
-  NSDate                      *recordingStartedDate;    // record timing
-  NSNumber                    *maxRecordingSeconds;     // record duration
+  QTCaptureSession         *captureSession;          // session
+  QTCaptureMovieFileOutput *captureMovieFileOutput;  // file output
+  QTCaptureDeviceInput     *captureVideoDeviceInput; // video input
+  QTCaptureDeviceInput     *captureAudioDeviceInput; // audio input
+  NSDate                   *recordingStartedDate;    // record timing
+  NSNumber                 *maxRecordingSeconds;     // record duration
 }
 
-// Class methods
+// class methods
 
 /**
- * Returns attached QTCaptureDevice objects that have video. Includes 
+ * Returns attached QTCaptureDevice objects that have video. Includes
  * video-only devices (QTMediaTypeVideo) and any audio/video devices
  *
  * @return autoreleased array of video devices
@@ -54,7 +56,7 @@ NSString *VERSION = @"0.0.1";
 +(QTCaptureDevice *)defaultDevice;
 
 /**
- * Returns QTCaptureDevice matching name or nil if a device matching the name 
+ * Returns QTCaptureDevice matching name or nil if a device matching the name
  * cannot be found
  *
  * @return QTCaptureDevice
@@ -70,8 +72,7 @@ NSString *VERSION = @"0.0.1";
 +(BOOL)captureVideo:(QTCaptureDevice *)videoDevice filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoSize:videoSize withDelay:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio;
 
 
-
-// Instance methods
+// instance methods
 
 -(id)init;
 
@@ -84,7 +85,7 @@ NSString *VERSION = @"0.0.1";
 -(BOOL)addAudioDevice:(QTCaptureDevice *)videoDevice;
 
 /**
- * Sets compression options on the output file
+ * Sets compression video/audio options on the output file
  */
 -(void)setCompressionOptions:(NSString *)videoCompression audioCompression:(NSString *)audioCompression;
 
@@ -97,7 +98,7 @@ NSString *VERSION = @"0.0.1";
 -(BOOL)startSession:(QTCaptureDevice *)device filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoSize:videoSize noAudio:(BOOL)noAudio;
 
 /**
- * QTCaptureMovieFileOutput delegate called when camera samples from the output 
+ * QTCaptureMovieFileOutput delegate called when camera samples from the output
  * buffer
  */
 -(void)captureOutput:(QTCaptureFileOutput *)captureOutput didOutputSampleBuffer:(QTSampleBuffer *)sampleBuffer fromConnection:(QTCaptureConnection *)connection;
