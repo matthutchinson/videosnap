@@ -10,65 +10,102 @@
 #import <QTKit/QTKit.h>
 #include "VideoSnap.h"
 
-// logging
-
+// logging helpers
 #ifndef videosnap_VideoSnap_h
-  #define error(...) fprintf(stderr, __VA_ARGS__)
-  #define console(...) printf(__VA_ARGS__)
-  #define verbose(...) (is_verbose && fprintf(stderr, __VA_ARGS__))
+#define error(...) fprintf(stderr, __VA_ARGS__)
+#define console(...) printf(__VA_ARGS__)
+#define verbose(...) (is_verbose && fprintf(stderr, __VA_ARGS__))
 #endif
 
 
-// default verbose setting
+// default verbose flag
+BOOL is_verbose = NO;
 
-BOOL is_verbose = YES;//NO;
-
-// versioning (bump this for new releases)
-
+// versioning (bump up for new releases)
 NSString *VERSION = @"0.0.1";
 
 
 // VideoSnap
-
 @interface VideoSnap : NSObject {
-    
-    QTCaptureSession            *mCaptureSession;          // session
-    QTCaptureMovieFileOutput    *mCaptureMovieFileOutput;  // file output
-    QTCaptureDeviceInput        *mCaptureVideoDeviceInput; // video input
-    QTCaptureDeviceInput        *mCaptureAudioDeviceInput; // audio input
-    int cnt;
+
+  QTCaptureSession            *captureSession;          // session
+  QTCaptureMovieFileOutput    *captureMovieFileOutput;  // file output
+  QTCaptureDeviceInput        *captureVideoDeviceInput; // video input
+  QTCaptureDeviceInput        *captureAudioDeviceInput; // audio input
+  NSDate                      *recordingStartedDate;    // record timing
+  NSNumber                    *maxRecordingSeconds;     // record duration
 }
 
--(id)init;
+// Class methods
 
 /**
- * Returns attached QTCaptureDevice objects that have video.
- * Includes video-only devices (QTMediaTypeVideo) and any
- * audio/video devices (QTMediaTypeMuxed).
+ * Returns attached QTCaptureDevice objects that have video. Includes 
+ * video-only devices (QTMediaTypeVideo) and any audio/video devices
  *
  * @return autoreleased array of video devices
  */
 +(NSArray *)videoDevices;
 
 /**
- * Returns default QTCaptureDevice object for video or nil 
- * if none found.
+ * Returns default QTCaptureDevice object for video or nil if none found
+ *
+ * @return QTCaptureDevice
  */
 +(QTCaptureDevice *)defaultDevice;
 
 /**
- * Returns QTCaptureDevice matching name or nil if a device
- * matching the name cannot be found.
+ * Returns QTCaptureDevice matching name or nil if a device matching the name 
+ * cannot be found
+ *
+ * @return QTCaptureDevice
  */
 +(QTCaptureDevice *)deviceNamed:(NSString *)name;
 
 /**
- * Captures video from a device and saves it to a file
+ * Captures video from a device and saves it to a file, returns (BOOL) YES if
+ * successful
+ *
+ * @return BOOL
  */
-+(BOOL)captureVideo:(QTCaptureDevice *)device toFile:(NSString *)path withDuration:(NSNumber *)recordSeconds withDelay:(NSNumber *)delaySeconds;
++(BOOL)captureVideo:(QTCaptureDevice *)videoDevice filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoSize:videoSize withDelay:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio;
 
--(void)startSession:(QTCaptureDevice *)device toFile:(NSString *)path withDuration:(NSNumber *)recordSeconds;
 
--(void)dealloc;
+
+// Instance methods
+
+-(id)init;
+
+/**
+ * Adds an audio device to the capture session, uses the audio from videoDevice
+ * if it is available, returns (BOOL) YES if successful
+ *
+ * @return BOOL
+ */
+-(BOOL)addAudioDevice:(QTCaptureDevice *)videoDevice;
+
+/**
+ * Sets compression options on the output file
+ */
+-(void)setCompressionOptions:(NSString *)videoCompression audioCompression:(NSString *)audioCompression;
+
+/**
+ * Starts a capture session on device, saving to a filePath for recordSeconds
+ * return (BOOL) YES successful or (BOOL) NO if not
+ *
+ * @return BOOL
+ */
+-(BOOL)startSession:(QTCaptureDevice *)device filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoSize:videoSize noAudio:(BOOL)noAudio;
+
+/**
+ * QTCaptureMovieFileOutput delegate called when camera samples from the output 
+ * buffer
+ */
+-(void)captureOutput:(QTCaptureFileOutput *)captureOutput didOutputSampleBuffer:(QTSampleBuffer *)sampleBuffer fromConnection:(QTCaptureConnection *)connection;
+
+/**
+ * QTCaptureMovieFileOutput delegate, called when output file has been finally
+ * written to
+ */
+-(void)captureOutput:(QTCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL forConnections:(NSArray *)connections dueToError:(NSError *)error;
 
 @end
