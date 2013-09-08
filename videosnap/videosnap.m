@@ -361,7 +361,6 @@ int processArgs(int argc, const char * argv[]) {
       // noAudio
       if (strcmp(argv[i], "--no-audio") == 0) {
         noAudio = YES;
-        break;
       }
 
       // check flag
@@ -466,7 +465,7 @@ int processArgs(int argc, const char * argv[]) {
   verbose("  file:     %s\n",       [filePath UTF8String]);
   verbose("  device:   %s\n",       [[device description] UTF8String]);
   verbose("  video:    %s H.264\n", [videoSize UTF8String]);
-  verbose("  audio:    %s\n",       [noAudio ? @"no": @"yes" UTF8String]);
+  verbose("  audio:    %s\n",       [noAudio ? @"(none)": @"HQ AAC" UTF8String]);
 
   // start capturing video, start a run loop
   if ([VideoSnap captureVideo:device
