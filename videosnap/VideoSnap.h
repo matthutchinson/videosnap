@@ -18,7 +18,7 @@
 #define VERSION @"0.0.1"
 
 // defaults
-#define DEFAULT_RECORDING_DELAY    @0.0
+#define DEFAULT_RECORDING_DELAY    @0.5
 #define DEFAULT_RECORDING_DURATION @6.0
 #define DEFAULT_RECORDING_FILENAME @"movie.mov"
 #define DEFAULT_RECORDING_SIZE     @"SD480"
@@ -69,7 +69,7 @@ BOOL is_verbose = NO;
  *
  * @return BOOL
  */
-+(BOOL)captureVideo:(QTCaptureDevice *)videoDevice filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoSize:videoSize withDelay:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio;
++(BOOL)captureVideo:(QTCaptureDevice *)videoDevice filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoSize:(NSString *)videoSize withDelay:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio;
 
 
 // instance methods
@@ -95,7 +95,7 @@ BOOL is_verbose = NO;
  *
  * @return BOOL
  */
--(BOOL)startSession:(QTCaptureDevice *)device filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoSize:videoSize noAudio:(BOOL)noAudio;
+-(BOOL)startSession:(QTCaptureDevice *)device filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoSize:(NSString *)videoSize withDelay:(NSNumber *)withDelay noAudio:(BOOL)noAudio;
 
 /**
  * QTCaptureMovieFileOutput delegate called when camera samples from the output

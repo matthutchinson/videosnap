@@ -74,14 +74,6 @@
            withDelay:(NSNumber *)delaySeconds
              noAudio:(BOOL)noAudio {
 
-  if ([delaySeconds floatValue] <= 0.0f) {
-    verbose("(no delay)\n");
-  } else {
-    verbose("(delay %.2lf seconds)\n", [delaySeconds doubleValue]);
-    [NSThread sleepForTimeInterval:[delaySeconds floatValue]];
-    verbose("(delay period ended)\n");
-  }
-
   // create an instance of VideoSnap and start the capture session
   VideoSnap *videoSnap;
   videoSnap = [[VideoSnap alloc] init];
@@ -90,6 +82,7 @@
                         filePath:filePath
                recordingDuration:recordingDuration
                        videoSize:videoSize
+                       withDelay:delaySeconds
                          noAudio:noAudio];
 }
 
@@ -101,6 +94,7 @@
             filePath:(NSString *)filePath
    recordingDuration:(NSNumber *)recordingDuration
            videoSize:(NSString *)videoSize
+           withDelay:(NSNumber *)delaySeconds
              noAudio:(BOOL)noAudio {
 
   BOOL success = NO;
@@ -139,7 +133,6 @@
       return success;
     } else {
       [captureMovieFileOutput setDelegate:self];
-      [captureMovieFileOutput recordToOutputFileURL:[NSURL fileURLWithPath:filePath]];
     }
 
     // set compression options
@@ -150,6 +143,20 @@
     verbose("(starting capture session)\n");
     [captureSession startRunning];
     success = [captureSession isRunning];
+    
+    if(success) {
+      if ([delaySeconds floatValue] <= 0.0f) {
+        verbose("(no delay)\n");
+      } else {
+        verbose("(delay %.2lf seconds)\n", [delaySeconds doubleValue]);
+        [[NSRunLoop currentRunLoop] runUntilDate:[[[NSDate alloc] init] dateByAddingTimeInterval: [delaySeconds doubleValue]]];
+        verbose("(delay period ended)\n");
+      }
+      verbose("(starting capture to file url)\n");
+      [captureMovieFileOutput recordToOutputFileURL:[NSURL fileURLWithPath:filePath]];
+    } else {
+      error("Could not start the capture session\n");
+    }
   }
 
   return success;
@@ -258,7 +265,7 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
   }
 
   // call a to stop the session
-  verbose("(stopping session)\n");
+  verbose("(stopping capture session)\n");
   [captureSession stopRunning];
 
   if ([[captureVideoDeviceInput device] isOpen])
@@ -296,7 +303,7 @@ void printHelp(NSString * commandName) {
   printf("  You can specify which device to capture from, the duration,\n");
   printf("  size/quality, a delay period (before capturing starts) and \n");
   printf("  optionally turn off audio capturing.  The only required\n");
-  printf("  argument is a file path. By default videosnap will capture %.f\n", [DEFAULT_RECORDING_DURATION floatValue]);
+  printf("  argument is a file path. By default videosnap will capture %.1f\n", [DEFAULT_RECORDING_DURATION floatValue]);
   printf("  seconds of video and audio from the default capture device in\n");
   printf("  H.264(SD480)/AAC encoding to 'movie.mov'\n");
   
@@ -304,8 +311,8 @@ void printHelp(NSString * commandName) {
   printf("\n  example: %s -t 5.75 -d 'Built-in iSight' -s 'HD720' my_movie.mov\n\n", [commandName UTF8String]);
 
   printf("  -l          List attached QuickTime capture devices\n");
-  printf("  -t x.xx     Set duration of video (in seconds, default %.fs)\n", [DEFAULT_RECORDING_DURATION floatValue]);
-  printf("  -w x.xx     Set delay before capturing starts (in seconds, default %.fs) \n", [DEFAULT_RECORDING_DELAY floatValue]);
+  printf("  -t x.xx     Set duration of video (in seconds, default %.1fs)\n", [DEFAULT_RECORDING_DURATION floatValue]);
+  printf("  -w x.xx     Set delay before capturing starts (in seconds, default %.1fs) \n", [DEFAULT_RECORDING_DELAY floatValue]);
   printf("  -d device   Set the capture device by name\n");
   printf("  --no-audio  Don't capture audio\n");
   printf("  -v          Turn ON verbose mode (OFF by default)\n");
