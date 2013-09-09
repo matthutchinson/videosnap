@@ -16,7 +16,6 @@ from [@rharder](https://github.com/rharder), and driven by problems with the
 older (carbon based) [wacaw](http://webcam-tools.sourceforge.net) command
 (which no longer works with some of the latest Mac/OSX hardware).
 
-
 ## Usage
 
 The following options are available:
@@ -33,8 +32,11 @@ The following options are available:
         Don't capture audio (audio IS captured by default)
 ```
 
-
 ### Examples
+
+It's hard to show a screencast of VideoSnap in action so I've recorded an
+[ascii.io](http://ascii.io/a/5358) video instead! Or follow along with the
+examples below;
 
 Capture 10.75 secs of video in 720HD format to movie.mov
 
@@ -45,13 +47,11 @@ Capture 1 minute of SD480 video (default), but no audio from the
 
     videosnap -t 60 -w 5 -d 'Built-in iSight' --no-audio my_video.mov
 
-
 ## Compatibility
 
 VideoSnap is OSX only, and should work without any issues on OSX 10.5+.
 If you do run into problems with the command, please [report an
 issue](https://github.com/matthutchinson/videosnap/issues).
-
 
 ## Contibuting
 
@@ -60,7 +60,6 @@ issues](https://github.com/matthutchinson/videosnap/issues) and if possible
 (fork the project) and submit a pull-request. When reporting a bug, please
 clearly indicate what platform and hardware you are running and the steps I
 should take to reproduce the issue.
-
 
 ## Development
 
@@ -71,6 +70,11 @@ You can build the project with [Xcode](http://developer.apple.com/xcode/)
 (using the Xcode project in the repository, or via the command line with
 `xcodebuild`)
 
+## License
+
+VideoSnap is distributed with The [MIT
+License](https://github.com/matthutchinson/videosnap/blob/master/LICENSE.md)
+(MIT).
 
 ## Ideas
 
@@ -81,4 +85,4 @@ You can build the project with [Xcode](http://developer.apple.com/xcode/)
   options based on file type like [ImageSnap](https://github.com/rharder/imagesnap))
 * Add optional window pane showing a CaptureView during recording
 * Add a comprehensive test suite in Xcode
-* Add a pkg installer
+* Allow VideoSnap to pipe output video
