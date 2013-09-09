@@ -23,7 +23,7 @@ The following options are available:
 ```
   -l    List attached QuickTime capture devices
   -t    Set duration of video (in seconds, default 6s)
-  -w    Set delay before capturing starts (in seconds, default 0s)
+  -w    Set delay before capturing starts (in seconds, default 0.5s)
   -d    Set the capture device by name (use -l to list attached devices)
   -s    Set the H.264 video size/quality (use 120, 240, SD480 (default) HD720)
   -v    Turn ON verbose mode (OFF by default)
@@ -46,6 +46,12 @@ Capture 1 minute of SD480 video (default), but no audio from the
 "Built-in iSight" device, delaying for 5 secs, saving to my_video.mov
 
     videosnap -t 60 -w 5 -d 'Built-in iSight' --no-audio my_video.mov
+
+## Warming Up
+
+Since some QT cameras can take a while to _warm up_ a default delay of 
+0.5 secs has been chosen. You can override this by setting the `-w` 
+argument with any number of seconds (0 would be no delay).
 
 ## Compatibility
 
