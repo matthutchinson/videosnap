@@ -49,15 +49,18 @@ Capture 1 minute of SD480 video (default), but no audio from the
 
 ## Warming Up
 
-Since some QT cameras can take a while to _warm up_ a default delay of 
-0.5 secs has been chosen. You can override this by setting the `-w` 
+Since some QT cameras can take a while to _warm up_ a default delay of
+0.5 secs has been chosen. You can override this by setting the `-w`
 argument with any number of seconds (0 would be no delay).
 
 ## Compatibility
 
-VideoSnap is OSX only, and should work without any issues on OSX 10.5+.
+VideoSnap is OSX only, and should work without any issues on OSX 10.7+ (x86_64).
 If you do run into problems with the command, please [report an
 issue](https://github.com/matthutchinson/videosnap/issues).
+
+If you need to capture video on older versions of OSX or on 32bit hardware, try
+[wacaw](http://webcam-tools.sourceforge.net).
 
 ## Contibuting
 

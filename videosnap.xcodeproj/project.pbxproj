@@ -157,7 +157,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				"INSTALL_PATH[sdk=*]" = /usr/local/bin;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -184,7 +184,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				"INSTALL_PATH[sdk=*]" = /usr/local/bin;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 			};
@@ -194,7 +194,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -203,7 +203,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
