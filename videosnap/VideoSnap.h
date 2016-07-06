@@ -6,39 +6,43 @@
 //  Copyright (c) 2016 Matthew Hutchinson. All rights reserved.
 //
 
-
-//#import <Foundation/Foundation.h>
-//#import <CoreMedia/CoreMedia.h>
+#import <CoreMedia/CoreMedia.h>
 #import <AVFoundation/AVFoundation.h>
 
-// logging helpers
+
+#define VERSION @"0.0.2"
+
+// logging
 #define error(...) fprintf(stderr, __VA_ARGS__)
 #define console(...) printf(__VA_ARGS__)
 #define verbose(...) (is_verbose && fprintf(stderr, __VA_ARGS__))
-
-// version
-#define VERSION @"0.0.2"
+#define verbose_error(...) (is_verbose && fprintf(stderr, __VA_ARGS__))
 
 // defaults
+#define CAPTURE_FRAMES_PER_SECOND  @30
 #define DEFAULT_RECORDING_DELAY    @0.5
 #define DEFAULT_RECORDING_DURATION @6.0
 #define DEFAULT_RECORDING_FILENAME @"movie.mov"
-#define DEFAULT_RECORDING_SIZE     @"SD480"
-#define DEFAULT_VIDEO_SIZES        @[@"120", @"240", @"SD480", @"HD720"]
+#define DEFAULT_VIDEO_PRESET       @"Medium"
+#define DEFAULT_VIDEO_PRESETS      @[@"High", @"Medium", @"Low", @"640x480", @"1280x720"]
+
+// video preset options:
+// High - Highest recording quality (varies per device)
+// Medium - Suitable for WiFi sharing (actual values may change)
+// Low - Suitable for 3G sharing (actual values may change)
+// 640x480 - 640x480 VGA (check its supported before setting it)
+// 1280x720 - 1280x720 720p HD (check its supported before setting it)
 
 // default verbose flag
-BOOL is_verbose = YES;
+BOOL is_verbose = NO;
+
 
 // VideoSnap
-@interface VideoSnap : NSObject {
-
-//  QTCaptureSession         *captureSession;          // session
-//  QTCaptureMovieFileOutput *captureMovieFileOutput;  // file output
-//  QTCaptureDeviceInput     *captureVideoDeviceInput; // video input
-//  QTCaptureDeviceInput     *captureAudioDeviceInput; // audio input
-  NSDate                   *recordingStartedDate;    // record timing
-  NSNumber                 *maxRecordingSeconds;     // record duration
+@interface VideoSnap : NSObject <AVCaptureFileOutputRecordingDelegate> {
+  AVCaptureSession         *session;
+  AVCaptureMovieFileOutput *movieFileOutput;
 }
+
 
 // class methods
 
@@ -71,7 +75,7 @@ BOOL is_verbose = YES;
  *
  * @return BOOL
  */
-//+(BOOL)captureVideo:(QTCaptureDevice *)videoDevice filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoSize:(NSString *)videoSize withDelay:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio;
++(BOOL)captureVideo:(AVCaptureDevice *)videoDevice filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoPreset:(NSString *)videoPreset withDelay:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio;
 
 
 // instance methods
@@ -79,36 +83,25 @@ BOOL is_verbose = YES;
 -(id)init;
 
 /**
- * Adds an audio device to the capture session, uses the audio from videoDevice
- * if it is available, returns (BOOL) YES if successful
- *
- * @return BOOL
- */
-//-(BOOL)addAudioDevice:(QTCaptureDevice *)videoDevice;
-
-/**
- * Sets compression video/audio options on the output file
- */
-//-(void)setCompressionOptions:(NSString *)videoCompression audioCompression:(NSString *)audioCompression;
-
-/**
  * Starts a capture session on device, saving to a filePath for recordSeconds
  * return (BOOL) YES successful or (BOOL) NO if not
  *
  * @return BOOL
  */
-//-(BOOL)startSession:(QTCaptureDevice *)device filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoSize:(NSString *)videoSize withDelay:(NSNumber *)withDelay noAudio:(BOOL)noAudio;
+-(BOOL)startSession:(AVCaptureDevice *)device filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds videoPreset:(NSString *)videoPreset withDelay:(NSNumber *)withDelay noAudio:(BOOL)noAudio;
 
 /**
- * QTCaptureMovieFileOutput delegate called when camera samples from the output
- * buffer
+ * Adds an audio device to the capture session, uses the audio from videoDevice
+ * if it is available, returns (BOOL) YES if successful
+ *
+ * @return BOOL
  */
-//-(void)captureOutput:(QTCaptureFileOutput *)captureOutput didOutputSampleBuffer:(QTSampleBuffer *)sampleBuffer fromConnection:(QTCaptureConnection *)connection;
+-(BOOL)addAudioDevice:(AVCaptureDevice *)videoDevice;
 
 /**
- * QTCaptureMovieFileOutput delegate, called when output file has been finally
+ * AVCaptureMovieFileOutput delegate, called when output file has been finally
  * written to
  */
-//-(void)captureOutput:(QTCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL forConnections:(NSArray *)connections dueToError:(NSError *)error;
+-(void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error;
 
 @end
