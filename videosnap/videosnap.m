@@ -197,7 +197,7 @@
 
 
 /**
- * add audio device to a capture session
+ * set video and audio compression options for the capture
  */
 - (void)setCompressionOptions:(NSString *)videoCompression
              audioCompression:(NSString *)audioCompression {
@@ -396,7 +396,7 @@ int processArgs(int argc, const char * argv[]) {
             device = [VideoSnap deviceNamed:[NSString stringWithUTF8String:argv[i+1]]];
             if (device == nil) {
               error("Device \"%s\" not found - aborting\n", argv[i+1]);
-              return 1;
+              return 128;
             }
             ++i;
           }
