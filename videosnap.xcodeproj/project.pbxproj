@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C90DA3891D2D50F500BC4021 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C90DA3881D2D50F500BC4021 /* AVFoundation.framework */; };
 		C96492FC17C0FD8F005C11A4 /* VideoSnap.m in Sources */ = {isa = PBXBuildFile; fileRef = C96492FB17C0FD8F005C11A4 /* VideoSnap.m */; };
 		C96492FE17C0FD8F005C11A4 /* videosnap.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C96492FD17C0FD8F005C11A4 /* videosnap.1 */; };
-		C964930617C11B5C005C11A4 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C964930517C11B5C005C11A4 /* QTKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,11 +26,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C90DA3881D2D50F500BC4021 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		C96492F817C0FD8F005C11A4 /* videosnap */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = videosnap; sourceTree = BUILT_PRODUCTS_DIR; };
 		C96492FB17C0FD8F005C11A4 /* VideoSnap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoSnap.m; sourceTree = "<group>"; };
 		C96492FD17C0FD8F005C11A4 /* videosnap.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = videosnap.1; sourceTree = "<group>"; };
 		C964930417C10194005C11A4 /* VideoSnap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoSnap.h; sourceTree = "<group>"; };
-		C964930517C11B5C005C11A4 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = ../../../System/Library/Frameworks/QTKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,7 +38,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C964930617C11B5C005C11A4 /* QTKit.framework in Frameworks */,
+				C90DA3891D2D50F500BC4021 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,7 +48,7 @@
 		C96492EF17C0FD8F005C11A4 = {
 			isa = PBXGroup;
 			children = (
-				C964930517C11B5C005C11A4 /* QTKit.framework */,
+				C90DA3881D2D50F500BC4021 /* AVFoundation.framework */,
 				C96492FA17C0FD8F005C11A4 /* videosnap */,
 				C96492F917C0FD8F005C11A4 /* Products */,
 			);
