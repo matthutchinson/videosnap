@@ -19,11 +19,11 @@
 is an OSX command line tool for recording video and audio
 from any attached capture device.
 .Pp
-You can specify which device to capture from, the duration,
-size/quality, a delay period (before capturing starts) and optionally
-turn off audio capturing.  The only required argument is a file path.
-By default videosnap will capture 6 seconds of video and audio from the
-default capture device in H.264(SD480)/AAC encoding to 'movie.mov'.
+You can specify which device to capture from, the duration, encoding, a delay
+period (before capturing starts) and optionally turn off audio capturing. By
+default videosnap will capture 6.0 seconds of video and audio from the default
+capture device at 30fps, with a Medium quality preset to 'movie.mov' and a short
+warm-up delay of 0.5 seconds.
 .Pp
 You can also use
 .Nm
@@ -39,8 +39,8 @@ Set duration of video (in seconds, default 6s)
 Set delay before capturing starts (in seconds, default 0s)
 .It Fl d
 Set the capture device by name (use -l to list attached devices)
-.It Fl s
-Set the H.264 video size/quality (use 120, 240, SD480 (default) or HD720)
+.It Fl p
+Set the video encoding preset (use High, Medium (default), Low, 640x480 or 1280x720)
 .It Fl -no-audio
 Don't capture audio (audio
 .Ar IS
@@ -53,12 +53,12 @@ Show help
 .Pp
 .Sh EXAMPLES
 .Pp
-Capture 10.75 secs of video in 720HD format to movie.mov
+Capture 10.75 secs of video in 1280x720 720HD format to movie.mov
 .Pp
 .Nm
--t 10.75 -s 'HD720'
+-t 10.75 -p '1280x720'
 .Pp
-Capture 1 minute of SD480 video (default), but no audio from the
+Capture 1 minute of video (Medium preset), but no audio from the
 "Built-in iSight" device, delaying for 5 secs, saving to my_video.mov
 .Pp
 .Nm
@@ -73,6 +73,8 @@ videosnap (main executable)
 No known bugs. Please report any issues here: https://github.com/matthutchinson/videosnap/issues
 .Sh HISTORY              \" Document history if command behaves in a unique manner
 .Bl -tag -width -indent
+.It 0.0.2
+2016-Jul-07 AV Foundation Release
 .It 0.0.1
 2013-Sep-08 Initial Release
 .El

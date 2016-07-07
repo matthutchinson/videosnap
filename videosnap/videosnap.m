@@ -11,8 +11,7 @@
 @implementation VideoSnap
 
 - (id)init {
-  self = [super init];
-  return self;
+  return [super init];
 }
 
 
@@ -43,13 +42,13 @@
 
 
 /**
- * returns a AVCaptureDevice matching the name or nil
+ * returns a AVCaptureDevice matching on localizedName or nil if not found
  */
 + (AVCaptureDevice *)deviceNamed:(NSString *)name {
   AVCaptureDevice *device = nil;
   NSArray *devices = [VideoSnap videoDevices];
   for (AVCaptureDevice *thisDevice in devices) {
-    if ([name isEqualToString:[thisDevice description]]) {
+    if ([name isEqualToString:[thisDevice localizedName]]) {
       device = thisDevice;
     }
   }
@@ -59,13 +58,13 @@
 
 
 /**
- * start capturing video (after withDelay) writing toFile for withDuration
+ * start capturing video (after delaySeconds) writing toFile for withDuration
  */
 + (BOOL)captureVideo:(AVCaptureDevice *)device
             filePath:(NSString *)filePath
    recordingDuration:(NSNumber *)recordingDuration
-           videoPreset:(NSString *)videoPreset
-           withDelay:(NSNumber *)delaySeconds
+			encodingPreset:(NSString *)encodingPreset
+				delaySeconds:(NSNumber *)delaySeconds
              noAudio:(BOOL)noAudio {
 
   // create an instance of VideoSnap and start the capture session
@@ -75,8 +74,8 @@
   return [videoSnap startSession:device
                         filePath:filePath
                recordingDuration:recordingDuration
-                       videoPreset:videoPreset
-                       withDelay:delaySeconds
+								  encodingPreset:encodingPreset
+										delaySeconds:delaySeconds
                          noAudio:noAudio];
 }
 
@@ -87,8 +86,8 @@
 - (BOOL)startSession:(AVCaptureDevice *)videoDevice
             filePath:(NSString *)filePath
    recordingDuration:(NSNumber *)recordingDuration
-           videoPreset:(NSString *)videoPreset
-           withDelay:(NSNumber *)delaySeconds
+			encodingPreset:(NSString *)encodingPreset
+				delaySeconds:(NSNumber *)delaySeconds
              noAudio:(BOOL)noAudio {
 
   BOOL success = NO;
@@ -117,8 +116,8 @@
 		verbose("(adding movie file output)\n");
 		movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
 
-		// set capture frame rate
-		int32_t fps = [CAPTURE_FRAMES_PER_SECOND intValue];
+		// set capture frame rate (fps)
+		int32_t fps = [DEFAULT_FRAMES_PER_SECOND intValue];
 		verbose("(set capture framerate to %i fps)\n", fps);
 		AVCaptureConnection *conn = [movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
 		if([conn isVideoMinFrameDurationSupported]) {
@@ -128,8 +127,8 @@
 			conn.videoMaxFrameDuration = CMTimeMake(1, fps);
 		}
 
-		CMTime maxDuration = CMTimeMakeWithSeconds([recordingDuration floatValue], [CAPTURE_FRAMES_PER_SECOND intValue]);
 		// set max duration and min free space in bytes before recording can start
+		CMTime maxDuration = CMTimeMakeWithSeconds([recordingDuration floatValue], fps);
 		movieFileOutput.maxRecordedDuration = maxDuration;
 		movieFileOutput.minFreeDiskSpaceLimit = 1024 * 1024;
 
@@ -140,13 +139,12 @@
 			return success;
 		}
 
-		verbose("(setting video compression)\n");
-		
-		NSString *capturePreset = [NSString stringWithFormat:@"AVCaptureSessionPreset%@", videoPreset];
+		verbose("(setting encoding preset)\n");
+		NSString *capturePreset = [NSString stringWithFormat:@"AVCaptureSessionPreset%@", encodingPreset];
 		if ([session canSetSessionPreset:capturePreset]) {
 			[session setSessionPreset:capturePreset];
 	  } else {
-			verbose("(could not set compression '%s' for this device, defaulting to Medium)\n", [videoPreset UTF8String]);
+			verbose("(could not set encoding preset '%s' for this device, defaulting to Medium)\n", [encodingPreset UTF8String]);
 			[session setSessionPreset:AVCaptureSessionPresetMedium];
 		}
 
@@ -157,6 +155,7 @@
 			NSError *fileError = nil;
 
 			if (![fileManager removeItemAtPath:filePath error:&fileError]) {
+				error("File '%s' exists, and could not be deleted\n", [filePath UTF8String]);
 				verbose_error("%s\n", [[fileError localizedDescription] UTF8String]);
 				return success;
 			}
@@ -246,7 +245,7 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
 		console("Captured %.2f seconds of video to '%s'\n", [outputDuration floatValue], [[outputFileURL lastPathComponent] UTF8String]);
 	} else {
 		error("Could not finalize writing video to file\n");
-		error("%s\n", [[error localizedDescription] UTF8String]);
+		verbose_error("%s\n", [[error localizedDescription] UTF8String]);
 	}
 
 	// call a to stop the session
@@ -278,17 +277,17 @@ void printHelp(NSString * commandName) {
 
   printf("VideoSnap (%s)\n\n", [VERSION UTF8String]);
   
-  printf("  Record video and audio from a capture device\n\n");
+  printf("Record video and audio from a capture device\n\n");
   
-  printf("  You can specify which device to capture from, the duration,\n");
-  printf("  encoding, a delay period (before capturing starts) and \n");
-  printf("  optionally turn off audio capturing.  The only required\n");
-  printf("  argument is a file path. By default videosnap will capture %.1f\n", [DEFAULT_RECORDING_DURATION floatValue]);
-  printf("  seconds of video and audio from the default capture device\n");
-  printf("  at 30fps, with a medium quality preset to 'movie.mov'\n");
-  
-  printf("\n    usage: %s [options] [file ...]", [commandName UTF8String]);
-  printf("\n  example: %s -t 5.75 -d 'Built-in iSight' -s 'High' my_movie.mov\n\n", [commandName UTF8String]);
+  printf("You can specify which device to capture from, the duration,\n");
+  printf("encoding, a delay period (before capturing starts) and optionally\n");
+  printf("turn off audio capturing. By default videosnap will capture\n");
+  printf("%.1f seconds of video and audio from the default capture device\n", [DEFAULT_RECORDING_DURATION floatValue]);
+	printf("at %ifps, with a Medium quality preset to 'movie.mov  and a short\n", [DEFAULT_FRAMES_PER_SECOND intValue]);
+  printf("warm-up delay of %.1fs seconds.\n", [DEFAULT_RECORDING_DELAY floatValue]);
+
+  printf("\n  usage: %s [options] [file ...]", [commandName UTF8String]);
+  printf("\nexample: %s -t 5.75 -d 'Built-in iSight' -p 'High' my_movie.mov\n\n", [commandName UTF8String]);
 
   printf("  -l          List attached capture devices\n");
   printf("  -t x.xx     Set duration of video (in seconds, default %.1fs)\n", [DEFAULT_RECORDING_DURATION floatValue]);
@@ -297,9 +296,9 @@ void printHelp(NSString * commandName) {
   printf("  --no-audio  Don't capture audio\n");
   printf("  -v          Turn ON verbose mode (OFF by default)\n");
   printf("  -h          Show help\n");
-  printf("  -s          Set video encoding preset (Medium by default)\n");
-  for (id videoPreset in DEFAULT_VIDEO_PRESETS) {
-    printf("                %s%s\n", [videoPreset UTF8String], [[videoPreset isEqualToString:DEFAULT_VIDEO_PRESET] ? @" (default)" : @"" UTF8String]);
+  printf("  -p          Set video encoding preset (Medium by default)\n");
+  for (id encodingPreset in DEFAULT_ENCODING_PRESETS) {
+    printf("                %s%s\n", [encodingPreset UTF8String], [[encodingPreset isEqualToString:DEFAULT_ENCODING_PRESET] ? @" (default)" : @"" UTF8String]);
   }
   printf("\n");
 }
@@ -319,7 +318,7 @@ unsigned long listDevices() {
       printf("* %s\n", [[device localizedName] UTF8String]);
     }
   } else {
-    console("no video devices found.\n");
+    console("No video devices found.\n");
   }
 
   return deviceCount;
@@ -334,7 +333,7 @@ int processArgs(int argc, const char * argv[]) {
   // argument defaults
   AVCaptureDevice *device;
   NSString        *filePath;
-  NSString        *videoPreset       = DEFAULT_VIDEO_PRESET;
+  NSString        *encodingPreset    = DEFAULT_ENCODING_PRESET;
   NSNumber        *delaySeconds      = DEFAULT_RECORDING_DELAY;
   NSNumber        *recordingDuration = DEFAULT_RECORDING_DURATION;
   BOOL            noAudio            = NO;
@@ -383,10 +382,10 @@ int processArgs(int argc, const char * argv[]) {
           break;
 
 
-        // videoPreset
-        case 's':
+        // encodingPreset
+        case 'p':
           if (i+1 < argc) {
-            videoPreset = [NSString stringWithUTF8String:argv[i+1]];
+            encodingPreset = [NSString stringWithUTF8String:argv[i+1]];
             ++i;
           }
           break;
@@ -435,13 +434,13 @@ int processArgs(int argc, const char * argv[]) {
     return 128;
   }
 
-  // check we have a valid videoPreset
-  NSArray *validChosenSize = [DEFAULT_VIDEO_PRESETS filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *option, NSDictionary *bindings) {
-    return [videoPreset isEqualToString:option];
+  // check we have a valid encodingPreset
+  NSArray *validChosenSize = [DEFAULT_ENCODING_PRESETS filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *option, NSDictionary *bindings) {
+    return [encodingPreset isEqualToString:option];
   }]];
 
   if (!validChosenSize.count) {
-    error("Invalid video preset! (must be one of %s) - aborting\n", [[DEFAULT_VIDEO_PRESETS componentsJoinedByString:@", "] UTF8String]);
+    error("Invalid video preset! (must be one of %s) - aborting\n", [[DEFAULT_ENCODING_PRESETS componentsJoinedByString:@", "] UTF8String]);
     return 128;
   }
 
@@ -450,7 +449,7 @@ int processArgs(int argc, const char * argv[]) {
   verbose("  delay:    %.2fs\n",    [delaySeconds floatValue]);
   verbose("  duration: %.2fs\n",    [recordingDuration floatValue]);
   verbose("  file:     %s\n",       [filePath UTF8String]);
-  verbose("  video:    %s H.264\n", [videoPreset UTF8String]);
+  verbose("  video:    %s H.264\n", [encodingPreset UTF8String]);
   verbose("  audio:    %s\n",       [noAudio ? @"(none)": @"HQ AAC" UTF8String]);
 	verbose("  device:   %s\n",       [[device localizedName] UTF8String]);
 	verbose("            %s - %s\n",  [[device modelID] UTF8String], [[device manufacturer] UTF8String]);
@@ -460,8 +459,8 @@ int processArgs(int argc, const char * argv[]) {
   if ([VideoSnap captureVideo:device
                      filePath:filePath
             recordingDuration:recordingDuration
-                    videoPreset:videoPreset
-                    withDelay:delaySeconds
+							 encodingPreset:encodingPreset
+								 delaySeconds:delaySeconds
                       noAudio:noAudio]) {
     [[NSRunLoop currentRunLoop] run];
   } else {
