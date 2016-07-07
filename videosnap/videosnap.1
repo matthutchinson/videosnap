@@ -16,14 +16,14 @@
 .Op file ...
 .Sh DESCRIPTION          \" Section Header - required - don't modify
 .Nm
-is an OSX command line tool for recording video and audio
-from any attached capture device.
+is an OSX command line tool for recording video and audio from any attached
+capture device.
 .Pp
 You can specify which device to capture from, the duration, encoding, a delay
 period (before capturing starts) and optionally turn off audio capturing. By
 default videosnap will capture 6.0 seconds of video and audio from the default
-capture device at 30fps, with a Medium quality preset to 'movie.mov' and a short
-warm-up delay of 0.5 seconds.
+capture device at 30fps, with a Medium quality preset and a short warm-up delay
+of 0.5 seconds.
 .Pp
 You can also use
 .Nm
@@ -40,7 +40,7 @@ Set delay before capturing starts (in seconds, default 0s)
 .It Fl d
 Set the capture device by name (use -l to list attached devices)
 .It Fl p
-Set the video encoding preset (use High, Medium (default), Low, 640x480 or 1280x720)
+Set the encoding preset (use High, Medium (default), Low, 640x480 or 1280x720)
 .It Fl -no-audio
 Don't capture audio (audio
 .Ar IS

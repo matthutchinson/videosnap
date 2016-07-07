@@ -283,8 +283,10 @@ void printHelp(NSString * commandName) {
   printf("encoding, a delay period (before capturing starts) and optionally\n");
   printf("turn off audio capturing. By default videosnap will capture\n");
   printf("%.1f seconds of video and audio from the default capture device\n", [DEFAULT_RECORDING_DURATION floatValue]);
-	printf("at %ifps, with a Medium quality preset to 'movie.mov  and a short\n", [DEFAULT_FRAMES_PER_SECOND intValue]);
-  printf("warm-up delay of %.1fs seconds.\n", [DEFAULT_RECORDING_DELAY floatValue]);
+	printf("at %ifps, with a Medium quality preset and a short warm-up delay\n", [DEFAULT_FRAMES_PER_SECOND intValue]);
+  printf("of %.1fs seconds.\n", [DEFAULT_RECORDING_DELAY floatValue]);
+
+	printf("\nYou can also use videosnap to list attached capture devices by name.\n");
 
   printf("\n  usage: %s [options] [file ...]", [commandName UTF8String]);
   printf("\nexample: %s -t 5.75 -d 'Built-in iSight' -p 'High' my_movie.mov\n\n", [commandName UTF8String]);
@@ -296,7 +298,7 @@ void printHelp(NSString * commandName) {
   printf("  --no-audio  Don't capture audio\n");
   printf("  -v          Turn ON verbose mode (OFF by default)\n");
   printf("  -h          Show help\n");
-  printf("  -p          Set video encoding preset (Medium by default)\n");
+  printf("  -p          Set the encoding preset (Medium by default)\n");
   for (id encodingPreset in DEFAULT_ENCODING_PRESETS) {
     printf("                %s%s\n", [encodingPreset UTF8String], [[encodingPreset isEqualToString:DEFAULT_ENCODING_PRESET] ? @" (default)" : @"" UTF8String]);
   }
