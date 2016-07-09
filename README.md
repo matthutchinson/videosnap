@@ -1,31 +1,35 @@
 # VideoSnap
 
 VideoSnap is an OSX command line tool for recording video and audio from any
-attached QuickTime capture device.
+attached capture device.
 
-You can specify which device to capture from, the duration, size/quality, a
-delay period (before capturing starts) and optionally turn off audio capturing.
+You can specify which device to capture from, the duration, encoding, a delay
+period (before capturing starts) and optionally turn off audio capturing.
 
-The only _required_ argument is a file path. By default VideoSnap will capture 6
-seconds of video and audio from the default capture device in H.264(SD480)/AAC
-encoding to 'movie.mov'. You can also use VideoSnap to list attached QuickTime
-capture devices by name.
+By default VideoSnap will capture 6 seconds of video and audio from the default
+capture device at 30fps, with a Medium encoding preset and a short (0.5 second)
+warm-up delay.
 
-This command was inspired by [ImageSnap](https://github.com/rharder/imagesnap)
-from [@rharder](https://github.com/rharder), and driven by problems with the
-older (carbon based) [wacaw](http://webcam-tools.sourceforge.net) command
-(which no longer works with some of the latest Mac/OSX hardware).
+You can also use VideoSnap to list all attached capture devices by name.
+
+## Requirements
+
+ * OSX 10.7+ (x86_64)
+ * A web cam
+
+If you need to capture video on older versions of OSX (or on 32-bit hardware),
+try [wacaw](http://webcam-tools.sourceforge.net).
 
 ## Usage
 
 The following options are available:
 
 ```
-  -l    List attached QuickTime capture devices
+  -l    List attached capture devices
   -t    Set duration of video (in seconds, default 6s)
   -w    Set delay before capturing starts (in seconds, default 0.5s)
   -d    Set the capture device by name (use -l to list attached devices)
-  -s    Set the H.264 video size/quality (use 120, 240, SD480 (default) HD720)
+  -p    Set the encoding preset (use High, Medium (default), Low, 640x480 or 1280x720)
   -v    Turn ON verbose mode (OFF by default)
   -h    Show help
   --no-audio
@@ -34,64 +38,80 @@ The following options are available:
 
 ### Examples
 
-It's hard to show a screencast of VideoSnap in action so I've recorded an
-[ascii.io](http://ascii.io/a/5358) video instead! Or follow along with the
-examples below;
+Capture 10.75 secs of video in 1280x720 720p HD format saving to movie.mov
 
-Capture 10.75 secs of video in 720HD format to movie.mov
+    videosnap -t 10.75 -p '1280x720'
 
-    videosnap -t 10.75 -s 'HD720'
-
-Capture 1 minute of SD480 video (default), but no audio from the
-"Built-in iSight" device, delaying for 5 secs, saving to my_video.mov
+Capture 1 minute of video (Medium preset), but no audio from the "Built-in
+iSight" device, delaying for 5 secs, saving to my_video.mov
 
     videosnap -t 60 -w 5 -d 'Built-in iSight' --no-audio my_video.mov
 
-## Warming Up
+List all attached devices by name
 
-Since some QT cameras can take a while to _warm up_ a default delay of
-0.5 secs has been chosen. You can override this by setting the `-w`
-argument with any number of seconds (0 would be no delay).
+    videosnap -l
 
-## Compatibility
+### Warming Up
 
-VideoSnap is OSX only, and should work without any issues on OSX 10.7+ (x86_64).
-If you do run into problems with the command, please [report an
-issue](https://github.com/matthutchinson/videosnap/issues).
+Since some camera hardware can take a while to warm up, a default delay of 0.5
+seconds is applied. Override this with the `-w` argument (0 meaning no delay).
 
-If you need to capture video on older versions of OSX or on 32bit hardware, try
-[wacaw](http://webcam-tools.sourceforge.net).
+### Encoding Presets
 
-## Contibuting
+The AVFoundation framework provides the following video encoding presets:
 
-If you would like to suggest a feature or report a bug, please use [GitHub
-issues](https://github.com/matthutchinson/videosnap/issues) and if possible
-(fork the project) and submit a pull-request. When reporting a bug, please
-clearly indicate what platform and hardware you are running and the steps I
-should take to reproduce the issue.
+| Resolution    | Comments                                                  |
+| ------------- | --------------------------------------------------------- |
+| High          | Highest recording quality. This varies per device.        |
+| Medium        | Suitable for Wi-Fi sharing. The actual values may change. |
+| Low           | Suitable for 3G sharing. The actual values may change.    |
+| 640x480       | VGA.                                                      |
+| 1280x720      | 720p HD.                                                  |
+
+Use the `-p` flag to set which preset to apply.
+
+## Help
+
+Get command help with:
+
+    videosnap -h
+
+If you have any problems, please do [raise an
+issue](https://github.com/matthutchinson/videosnap/issues) on GitHub. When
+reporting a bug, remember to mention what platform and hardware you are using
+and the steps I can take to reproduce the issue.
+
+## Contributing
+
+Bug [reports](https://github.com/matthutchinson/videosnap/issues) and [pull
+requests](https://github.com/matthutchinson/videosnap/pulls) are welcome on
+GitHub. Before submitting pull requests, please read the [contributing
+guidelines](https://github.com/matthutchinson/lifx_dash/blob/master/CONTRIBUTING.md)
+for more details.
 
 ## Development
 
 VideoSnap is coded with Objective-C and uses the
-[Cocoa](https://developer.apple.com/technologies/mac/cocoa.html) and
-[QTKit](https://developer.apple.com/quicktime/) frameworks to capture video.
-You can build the project with [Xcode](http://developer.apple.com/xcode/)
-(using the Xcode project in the repository, or via the command line with
-`xcodebuild`)
+[AVFoundation](https://developer.apple.com/av-foundation/) framework. You can
+build the project with [Xcode](http://developer.apple.com/xcode/) (using the
+Xcode project workspace in the repository, or with the `xcodebuild` command).
 
-## License
+# Future Work
 
-VideoSnap is distributed with The [MIT
-License](https://github.com/matthutchinson/videosnap/blob/master/LICENSE.md)
-(MIT).
-
-## Ideas
-
+* Allow VideoSnap to pipe captured bytes to the STDOUT stream
 * Submit VideoSnap as a package for [Homebrew](http://brew.sh)
-* Default filename should include a time stamp of when recording began
+* Default filename should include a timestamp of when recording began
 * Allow more size/quality options for video and/or audio
 * Allow VideoSnap to capture a single frame to an image file (with compression
   options based on file type like [ImageSnap](https://github.com/rharder/imagesnap))
-* Add optional window pane showing a CaptureView during recording
-* Add a comprehensive test suite in Xcode
-* Allow VideoSnap to pipe output video
+* A comprehensive test suite in Xcode
+
+## License
+
+VideoSnap is distributed under the terms of the [MIT
+License](http://opensource.org/licenses/MIT).
+
+## Who's Who?
+
+* [VideoSnap](http://github.com/matthutchinson/videosnap) by [Matthew Hutchinson](http://matthewhutchinson.net)
+* Inspired by [ImageSnap](https://github.com/rharder/imagesnap) by [@rharder](https://github.com/rharder)
