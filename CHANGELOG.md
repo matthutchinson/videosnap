@@ -20,4 +20,3 @@ project adheres to [Semantic Versioning][Semver].
 [0.0.2]: https://github.com/matthutchinson/videosnap/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/matthutchinson/videosnap/releases/tag/v0.0.1
 [Semver]: http://semver.org
-
