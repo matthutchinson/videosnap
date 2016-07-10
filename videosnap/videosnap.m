@@ -51,6 +51,156 @@
 	printf("\n");
 }
 
+/**
+ * process command line args and return ret code
+ */
++ (int)processArgs:(NSArray *)arguments {
+
+	// argument defaults
+	AVCaptureDevice *device;
+	NSString        *filePath;
+	NSString        *encodingPreset    = DEFAULT_ENCODING_PRESET;
+	NSNumber        *delaySeconds      = [NSNumber numberWithFloat:DEFAULT_RECORDING_DELAY];
+	NSNumber        *recordingDuration = [NSNumber numberWithFloat:DEFAULT_RECORDING_DURATION];
+	BOOL            noAudio            = NO;
+
+	int argc = (int)[arguments count];
+
+	for (int i = 1; i < argc; i++) {
+		NSString *argValue;
+		NSString *arg = [arguments objectAtIndex: i];
+
+		// set arguement value if present
+		if (i+1 < argc) {
+			argValue = [arguments objectAtIndex: i+1];
+		}
+
+		// check for switches
+		if ([arg characterAtIndex:0] == '-') {
+
+			if([arg isEqualToString: @"--no-audio"]) {
+				noAudio = YES;
+			}
+
+			switch ([arg characterAtIndex:1]) {
+					// show help
+				case 'h':
+					[VideoSnap printHelp];
+					return 0;
+					break;
+
+					// set verbose flag
+				case 'v':
+					//  is_verbose = YES;
+					break;
+
+					// list devices
+				case 'l':
+					[VideoSnap listDevices];
+					return 0;
+					break;
+
+					// device
+				case 'd':
+					if (i+1 < argc) {
+						device = [VideoSnap deviceNamed:argValue];
+						if (device == nil) {
+							error("Device \"%s\" not found - aborting\n", [argValue UTF8String]);
+							return 128;
+						}
+						++i;
+					}
+					break;
+
+
+					// encodingPreset
+				case 'p':
+					if (i+1 < argc) {
+						encodingPreset = argValue;
+						++i;
+					}
+					break;
+
+					// delaySeconds
+				case 'w':
+					if (i+1 < argc) {
+						delaySeconds = [NSNumber numberWithFloat:[argValue floatValue]];
+						++i;
+					}
+					break;
+
+					// recordingDuration
+				case 't':
+					if (i+1 < argc) {
+						recordingDuration = [NSNumber numberWithFloat:[argValue floatValue]];
+						++i;
+					}
+					break;
+			}
+		} else  {
+			filePath = arg;
+		}
+	}
+
+	// check we have a file
+	if (filePath == nil) {
+		filePath = DEFAULT_RECORDING_FILENAME;
+		verbose("(no filename specified, using default)\n");
+	}
+
+	// check we have a device
+	if (device == nil) {
+		device = [VideoSnap defaultDevice];
+		if (device == nil) {
+			error("No video devices found! - aborting\n");
+			return 1;
+		} else {
+			verbose("(no device specified, using default)\n");
+		}
+	}
+
+	// check we have a duration
+	if ([recordingDuration floatValue] <= 0.0f) {
+		error("No duration specified! - aborting\n");
+		return 128;
+	}
+
+	// check we have a valid encodingPreset
+	NSArray *encodingPresets = [DEFAULT_ENCODING_PRESETS componentsSeparatedByString:@", "];
+	NSArray *validChosenSize = [encodingPresets filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *option, NSDictionary *bindings) {
+		return [encodingPreset isEqualToString:option];
+	}]];
+
+	if (!validChosenSize.count) {
+		error("Invalid video preset! (must be one of %s) - aborting\n", [DEFAULT_ENCODING_PRESETS UTF8String]);
+		return 128;
+	}
+
+	// show options in verbose mode
+	verbose("(options before recording)\n");
+	verbose("  delay:    %.2fs\n",    [delaySeconds floatValue]);
+	verbose("  duration: %.2fs\n",    [recordingDuration floatValue]);
+	verbose("  file:     %s\n",       [filePath UTF8String]);
+	verbose("  video:    %s\n",       [encodingPreset UTF8String]);
+	verbose("  audio:    %s\n",       [noAudio ? @"(none)": @"HQ AAC" UTF8String]);
+	verbose("  device:   %s\n",       [[device localizedName] UTF8String]);
+	verbose("            %s - %s\n",  [[device modelID] UTF8String], [[device manufacturer] UTF8String]);
+
+
+	// start capturing video, start a run loop
+	if ([VideoSnap captureVideo:device
+										 filePath:filePath
+						recordingDuration:recordingDuration
+							 encodingPreset:encodingPreset
+								 delaySeconds:delaySeconds
+											noAudio:noAudio]) {
+		[[NSRunLoop currentRunLoop] run];
+	} else {
+		error("Could not initiate a VideoSnap capture\n");
+	}
+
+	return 0;
+}
 
 
 /**

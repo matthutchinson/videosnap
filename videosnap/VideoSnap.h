@@ -35,6 +35,12 @@
  */
 +(void)listDevices;
 
+
+/**
+ * Process command line args and return ret code
+ */
++(int)processArgs:(NSArray *)arguments;
+
 /**
  * Returns attached AVCaptureDevice objects that have video. Includes
  * any devices supporting AVMediaTypeVideo and AVMediaTypeMuxed (audio & video)
