@@ -10,6 +10,7 @@
 		C90DA3891D2D50F500BC4021 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C90DA3881D2D50F500BC4021 /* AVFoundation.framework */; };
 		C90DA38B1D2D74CC00BC4021 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C90DA38A1D2D74CC00BC4021 /* CoreMedia.framework */; };
 		C946641D1D327B840081A87B /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = C946641C1D327B840081A87B /* Constants.m */; };
+		C94664201D3283490081A87B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C946641F1D3283490081A87B /* main.m */; };
 		C96492FC17C0FD8F005C11A4 /* VideoSnap.m in Sources */ = {isa = PBXBuildFile; fileRef = C96492FB17C0FD8F005C11A4 /* VideoSnap.m */; };
 		C96492FE17C0FD8F005C11A4 /* videosnap.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C96492FD17C0FD8F005C11A4 /* videosnap.1 */; };
 /* End PBXBuildFile section */
@@ -32,6 +33,7 @@
 		C90DA38A1D2D74CC00BC4021 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		C946641C1D327B840081A87B /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		C946641E1D327BA50081A87B /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		C946641F1D3283490081A87B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C96492F817C0FD8F005C11A4 /* videosnap */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = videosnap; sourceTree = BUILT_PRODUCTS_DIR; };
 		C96492FB17C0FD8F005C11A4 /* VideoSnap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoSnap.m; sourceTree = "<group>"; };
 		C96492FD17C0FD8F005C11A4 /* videosnap.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = videosnap.1; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 				C96492FB17C0FD8F005C11A4 /* VideoSnap.m */,
 				C946641C1D327B840081A87B /* Constants.m */,
 				C946641E1D327BA50081A87B /* Constants.h */,
+				C946641F1D3283490081A87B /* main.m */,
 			);
 			path = videosnap;
 			sourceTree = "<group>";
@@ -134,6 +137,7 @@
 			files = (
 				C96492FC17C0FD8F005C11A4 /* VideoSnap.m in Sources */,
 				C946641D1D327B840081A87B /* Constants.m in Sources */,
+				C94664201D3283490081A87B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

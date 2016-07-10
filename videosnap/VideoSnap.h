@@ -8,15 +8,13 @@
 
 #import <CoreMedia/CoreMedia.h>
 #import <AVFoundation/AVFoundation.h>
+#import "Constants.h"
 
 // logging
 #define error(...) fprintf(stderr, __VA_ARGS__)
 #define console(...) printf(__VA_ARGS__)
-#define verbose(...) (is_verbose && fprintf(stderr, __VA_ARGS__))
-#define verbose_error(...) (is_verbose && fprintf(stderr, __VA_ARGS__))
-
-// default verbose flag (not a constant)
-BOOL is_verbose = YES;
+#define verbose(...) (YES && fprintf(stderr, __VA_ARGS__))
+#define verbose_error(...) (YES && fprintf(stderr, __VA_ARGS__))
 
 // VideoSnap
 @interface VideoSnap : NSObject <AVCaptureFileOutputRecordingDelegate> {
@@ -24,8 +22,18 @@ BOOL is_verbose = YES;
   AVCaptureMovieFileOutput *movieFileOutput;
 }
 
-
 // class methods
+
+
+/**
+ * Prints help text to stdout
+ */
++(void)printHelp;
+
+/**
+ * Print connected capture device details to stdout
+ */
++(void)listDevices;
 
 /**
  * Returns attached AVCaptureDevice objects that have video. Includes
