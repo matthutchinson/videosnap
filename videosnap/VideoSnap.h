@@ -9,32 +9,14 @@
 #import <CoreMedia/CoreMedia.h>
 #import <AVFoundation/AVFoundation.h>
 
-
-#define VERSION @"0.0.2"
-
 // logging
 #define error(...) fprintf(stderr, __VA_ARGS__)
 #define console(...) printf(__VA_ARGS__)
 #define verbose(...) (is_verbose && fprintf(stderr, __VA_ARGS__))
 #define verbose_error(...) (is_verbose && fprintf(stderr, __VA_ARGS__))
 
-// defaults
-#define DEFAULT_FRAMES_PER_SECOND  @30
-#define DEFAULT_RECORDING_DELAY    @0.5
-#define DEFAULT_RECORDING_DURATION @6.0
-#define DEFAULT_RECORDING_FILENAME @"movie.mov"
-#define DEFAULT_ENCODING_PRESET    @"Medium"
-#define DEFAULT_ENCODING_PRESETS   @[@"High", @"Medium", @"Low", @"640x480", @"1280x720"]
-
-// encoding preset options:
-// High - Highest recording quality (varies per device)
-// Medium - Suitable for WiFi sharing (actual values may change)
-// Low - Suitable for 3G sharing (actual values may change)
-// 640x480 - 640x480 VGA (check its supported before setting it)
-// 1280x720 - 1280x720 720p HD (check its supported before setting it)
-
-// default verbose flag
-BOOL is_verbose = NO;
+// default verbose flag (not a constant)
+BOOL is_verbose = YES;
 
 // VideoSnap
 @interface VideoSnap : NSObject <AVCaptureFileOutputRecordingDelegate> {

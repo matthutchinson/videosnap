@@ -7,6 +7,7 @@
 //
 
 #import "VideoSnap.h"
+#import "Constants.h"
 
 @implementation VideoSnap
 
@@ -117,7 +118,7 @@
 		movieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
 
 		// set capture frame rate (fps)
-		int32_t fps = [DEFAULT_FRAMES_PER_SECOND intValue];
+		int32_t fps = DEFAULT_FRAMES_PER_SECOND;
 		verbose("(set capture framerate to %i fps)\n", fps);
 		AVCaptureConnection *conn = [movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
 		if([conn isVideoMinFrameDurationSupported]) {
@@ -282,9 +283,9 @@ void printHelp(NSString * commandName) {
   printf("You can specify which device to capture from, the duration,\n");
   printf("encoding, a delay period (before capturing starts) and optionally\n");
   printf("turn off audio capturing. By default videosnap will capture\n");
-  printf("%.1f seconds of video and audio from the default capture device\n", [DEFAULT_RECORDING_DURATION floatValue]);
-	printf("at %ifps, with a Medium quality preset and a short warm-up delay\n", [DEFAULT_FRAMES_PER_SECOND intValue]);
-  printf("of %.1fs seconds.\n", [DEFAULT_RECORDING_DELAY floatValue]);
+  printf("%.1f seconds of video and audio from the default capture device\n", DEFAULT_RECORDING_DURATION);
+	printf("at %ifps, with a Medium quality preset and a short warm-up delay\n", DEFAULT_FRAMES_PER_SECOND);
+  printf("of %.1fs seconds.\n", DEFAULT_RECORDING_DELAY);
 
 	printf("\nYou can also use videosnap to list attached capture devices by name.\n");
 
@@ -292,14 +293,16 @@ void printHelp(NSString * commandName) {
   printf("\nexample: %s -t 5.75 -d 'Built-in iSight' -p 'High' my_movie.mov\n\n", [commandName UTF8String]);
 
   printf("  -l          List attached capture devices\n");
-  printf("  -t x.xx     Set duration of video (in seconds, default %.1fs)\n", [DEFAULT_RECORDING_DURATION floatValue]);
-  printf("  -w x.xx     Set delay before capturing starts (in seconds, default %.1fs) \n", [DEFAULT_RECORDING_DELAY floatValue]);
+  printf("  -t x.xx     Set duration of video (in seconds, default %.1fs)\n", DEFAULT_RECORDING_DURATION);
+  printf("  -w x.xx     Set delay before capturing starts (in seconds, default %.1fs) \n", DEFAULT_RECORDING_DELAY);
   printf("  -d device   Set the capture device by name\n");
   printf("  --no-audio  Don't capture audio\n");
   printf("  -v          Turn ON verbose mode (OFF by default)\n");
   printf("  -h          Show help\n");
   printf("  -p          Set the encoding preset (Medium by default)\n");
-  for (id encodingPreset in DEFAULT_ENCODING_PRESETS) {
+
+  NSArray *encodingPresets = [DEFAULT_ENCODING_PRESETS componentsSeparatedByString:@", "];
+  for (id encodingPreset in encodingPresets) {
     printf("                %s%s\n", [encodingPreset UTF8String], [[encodingPreset isEqualToString:DEFAULT_ENCODING_PRESET] ? @" (default)" : @"" UTF8String]);
   }
   printf("\n");
@@ -336,8 +339,8 @@ int processArgs(int argc, const char * argv[]) {
   AVCaptureDevice *device;
   NSString        *filePath;
   NSString        *encodingPreset    = DEFAULT_ENCODING_PRESET;
-  NSNumber        *delaySeconds      = DEFAULT_RECORDING_DELAY;
-  NSNumber        *recordingDuration = DEFAULT_RECORDING_DURATION;
+	NSNumber        *delaySeconds      = [NSNumber numberWithFloat:DEFAULT_RECORDING_DELAY];
+  NSNumber        *recordingDuration = [NSNumber numberWithFloat:DEFAULT_RECORDING_DURATION];
   BOOL            noAudio            = NO;
 
   int i;
@@ -437,12 +440,13 @@ int processArgs(int argc, const char * argv[]) {
   }
 
   // check we have a valid encodingPreset
-  NSArray *validChosenSize = [DEFAULT_ENCODING_PRESETS filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *option, NSDictionary *bindings) {
+	NSArray *encodingPresets = [DEFAULT_ENCODING_PRESETS componentsSeparatedByString:@", "];
+  NSArray *validChosenSize = [encodingPresets filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *option, NSDictionary *bindings) {
     return [encodingPreset isEqualToString:option];
   }]];
 
   if (!validChosenSize.count) {
-    error("Invalid video preset! (must be one of %s) - aborting\n", [[DEFAULT_ENCODING_PRESETS componentsJoinedByString:@", "] UTF8String]);
+    error("Invalid video preset! (must be one of %s) - aborting\n", [DEFAULT_ENCODING_PRESETS UTF8String]);
     return 128;
   }
 
