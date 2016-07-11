@@ -96,7 +96,7 @@ VideoSnap is coded with Objective-C and uses the
 build the project with [Xcode](http://developer.apple.com/xcode/) (using the
 Xcode project workspace in the repository, or with the `xcodebuild` command).
 
-# Future Work
+## Future Work
 
 * Allow VideoSnap to pipe captured bytes to the STDOUT stream
 * Submit VideoSnap as a package for [Homebrew](http://brew.sh)
