@@ -80,7 +80,7 @@ The AVFoundation framework provides the following video encoding presets:
 | 640x480       | VGA.                                                      |
 | 1280x720      | 720p HD.                                                  |
 
-Use the `-p` flag to set which preset to apply.
+Use the `-p` flag to choose a preset.
 
 ## Help
 
