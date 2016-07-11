@@ -19,11 +19,12 @@
 is an OSX command line tool for recording video and audio from any attached
 capture device.
 .Pp
-You can specify which device to capture from, the duration, encoding, a delay
-period (before capturing starts) and optionally turn off audio capturing. By
-default videosnap will capture 6.0 seconds of video and audio from the default
-capture device at 30fps, with a Medium quality preset and a short warm-up delay
-of 0.5 seconds.
+You can specify which device to capture from, the duration, encoding, delay
+period (before capturing starts) and disable audio capturing. By default
+videosnap will capture both video and audio from the default capture device at
+30fps, with a Medium quality preset and a short (0.5s) warm-up delay.
+.Pp
+If no duration is specified, videosnap will record until you cancel with [Ctrl+c]
 .Pp
 You can also use
 .Nm
@@ -33,12 +34,12 @@ The following options are available:
 .Bl -tag -width -indent
 .It Fl l
 List attached capture devices
-.It Fl t
-Set duration of video (in seconds, default 6s)
 .It Fl w
 Set delay before capturing starts (in seconds, default 0s)
+.It Fl t
+Set duration of video (in seconds)
 .It Fl d
-Set the capture device by name (use -l to list attached devices)
+Set the capture device (by name, use -l to list attached devices)
 .It Fl p
 Set the encoding preset (use High, Medium (default), Low, 640x480 or 1280x720)
 .It Fl -no-audio

@@ -20,7 +20,7 @@
 @interface VideoSnap : NSObject <AVCaptureFileOutputRecordingDelegate> {
   AVCaptureSession         *session;
   AVCaptureMovieFileOutput *movieFileOutput;
-  BOOL isVerbose;
+  BOOL                     isVerbose;
 }
 
 // class methods
@@ -34,11 +34,6 @@
  * Print connected capture device details to stdout
  */
 +(void)listDevices;
-
-/**
- * Process command line args and return ret code
- */
-+(int)processArgs:(NSArray *)arguments;
 
 /**
  * Returns attached AVCaptureDevice objects that have video. Includes
@@ -62,23 +57,20 @@
  */
 +(AVCaptureDevice *)deviceNamed:(NSString *)name;
 
-/**
- * Captures video from a device and saves it to a file, returns (BOOL) YES if
- * successful
- *
- * @return BOOL
- */
-+(BOOL)captureVideo:(AVCaptureDevice *)videoDevice filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds encodingPreset:(NSString *)encodingPreset delaySeconds:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio isVerbose:(BOOL)isVerbose;
-
 
 // instance methods
 
 -(id)init;
 
 /**
+ * Process command line args and return ret code
+ */
+-(int)processArgs:(NSArray *)arguments;
+
+/**
  * Set verbose mode ON or OFF
  */
--(void) setVerbosity:(BOOL)verbosity;
+-(void)setVerbosity:(BOOL)verbosity;
 
 /**
  * Starts a capture session on a device for recordSeconds saving to filePath 
@@ -98,8 +90,20 @@
 -(BOOL)addAudioDevice:(AVCaptureDevice *)videoDevice;
 
 /**
+ * Delegates isRecording to movieFileOutput
+ *
+ * @return BOOL
+ */
+-(BOOL)isRecording;
+
+/**
+ * Delegates stopRecording to movieFileOutput, with SIGINT value from handler
+ */
+-(void)stopRecording:(int)sigNum;
+
+/**
  * AVCaptureMovieFileOutput delegate, called when output file has been finally
- * written to, due to error or stopping the capture session 
+ * written to, due to error or stopping the capture session
  */
 -(void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error;
 

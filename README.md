@@ -3,14 +3,14 @@
 VideoSnap is an OSX command line tool for recording video and audio from any
 attached capture device.
 
-You can specify which device to capture from, the duration, encoding, a delay
-period (before capturing starts) and optionally turn off audio capturing.
+You can specify which device to capture from, the duration, encoding, delay
+period (before capturing starts) and disable audio capturing.
 
-By default VideoSnap will capture 6 seconds of video and audio from the default
-capture device at 30fps, with a Medium encoding preset and a short (0.5 second)
-warm-up delay.
+By default VideoSnap will capture both video and audio from the default capture
+device at 30fps, with a Medium quality preset and a short (0.5s) warm-up delay.
 
-You can also use VideoSnap to list all attached capture devices by name.
+If no duration is specified, VideoSnap will record until you cancel with
+[Ctrl+c]. You can also use VideoSnap to list attached capture devices by name.
 
 ## Requirements
 
@@ -26,8 +26,8 @@ The following options are available:
 
 ```
   -l    List attached capture devices
-  -t    Set duration of video (in seconds, default 6s)
   -w    Set delay before capturing starts (in seconds, default 0.5s)
+  -t    Set duration of video (in seconds)
   -d    Set the capture device by name (use -l to list attached devices)
   -p    Set the encoding preset (use High, Medium (default), Low, 640x480 or 1280x720)
   -v    Turn ON verbose mode (OFF by default)
