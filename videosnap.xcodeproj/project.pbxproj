@@ -3,12 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		C90DA3891D2D50F500BC4021 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C90DA3881D2D50F500BC4021 /* AVFoundation.framework */; };
 		C90DA38B1D2D74CC00BC4021 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C90DA38A1D2D74CC00BC4021 /* CoreMedia.framework */; };
+		C946641D1D327B840081A87B /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = C946641C1D327B840081A87B /* Constants.m */; };
+		C94664201D3283490081A87B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C946641F1D3283490081A87B /* main.m */; };
 		C96492FC17C0FD8F005C11A4 /* VideoSnap.m in Sources */ = {isa = PBXBuildFile; fileRef = C96492FB17C0FD8F005C11A4 /* VideoSnap.m */; };
 		C96492FE17C0FD8F005C11A4 /* videosnap.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C96492FD17C0FD8F005C11A4 /* videosnap.1 */; };
 /* End PBXBuildFile section */
@@ -29,6 +31,9 @@
 /* Begin PBXFileReference section */
 		C90DA3881D2D50F500BC4021 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		C90DA38A1D2D74CC00BC4021 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		C946641C1D327B840081A87B /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		C946641E1D327BA50081A87B /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		C946641F1D3283490081A87B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C96492F817C0FD8F005C11A4 /* videosnap */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = videosnap; sourceTree = BUILT_PRODUCTS_DIR; };
 		C96492FB17C0FD8F005C11A4 /* VideoSnap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoSnap.m; sourceTree = "<group>"; };
 		C96492FD17C0FD8F005C11A4 /* videosnap.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = videosnap.1; sourceTree = "<group>"; };
@@ -69,9 +74,12 @@
 		C96492FA17C0FD8F005C11A4 /* videosnap */ = {
 			isa = PBXGroup;
 			children = (
-				C96492FB17C0FD8F005C11A4 /* VideoSnap.m */,
 				C96492FD17C0FD8F005C11A4 /* videosnap.1 */,
 				C964930417C10194005C11A4 /* VideoSnap.h */,
+				C96492FB17C0FD8F005C11A4 /* VideoSnap.m */,
+				C946641C1D327B840081A87B /* Constants.m */,
+				C946641E1D327BA50081A87B /* Constants.h */,
+				C946641F1D3283490081A87B /* main.m */,
 			);
 			path = videosnap;
 			sourceTree = "<group>";
@@ -106,7 +114,7 @@
 				ORGANIZATIONNAME = "Matthew Hutchinson";
 			};
 			buildConfigurationList = C96492F317C0FD8F005C11A4 /* Build configuration list for PBXProject "videosnap" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -128,6 +136,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C96492FC17C0FD8F005C11A4 /* VideoSnap.m in Sources */,
+				C946641D1D327B840081A87B /* Constants.m in Sources */,
+				C94664201D3283490081A87B /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +148,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -151,7 +162,9 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INPUT_FILETYPE = automatic;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -172,6 +185,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -184,6 +198,8 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_INPUT_FILETYPE = automatic;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
