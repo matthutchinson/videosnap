@@ -20,6 +20,18 @@ If no duration is specified, VideoSnap will record until you cancel with
 If you need to capture video on older versions of OSX (or on 32-bit hardware),
 try [wacaw](http://webcam-tools.sourceforge.net).
 
+## Installation
+
+Download the [latest
+release](https://github.com/matthutchinson/videosnap/tree/master/release) and
+unpack it like so:
+
+    tar -zxvf videosnap-[version].tar.gz
+    cp -R videosnap/usr/local/* /usr/local/
+
+This will unzip the archive, and copy the binary and man page to your
+`/usr/local` directories.
+
 ## Usage
 
 The following options are available:
@@ -75,6 +87,8 @@ Use the `-p` flag to set which preset to apply.
 Get command help with:
 
     videosnap -h
+    # or via the man page with
+    man videosnap
 
 If you have any problems, please do [raise an
 issue](https://github.com/matthutchinson/videosnap/issues) on GitHub. When
