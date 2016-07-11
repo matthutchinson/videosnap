@@ -20,10 +20,10 @@
 
 	printf("Record video and audio from a capture device\n\n");
 
-	printf("You can specify which device to capture from, the duration, encoding, delay\n");
-	printf("period (before capturing starts) and disable audio capturing. By default\n");
-	printf("videosnap will capture both video and audio from the default capture device at\n");
-	printf("%ifps, with a Medium quality preset and a short (%.1fs) warm-up delay.\n", DEFAULT_FRAMES_PER_SECOND, DEFAULT_RECORDING_DELAY);
+	printf("You can specify which device to capture from, the duration, encoding and a delay\n");
+	printf("period (before capturing starts). You can also disable audio recording.\n");
+	printf("By default videosnap will capture both video and audio from the default capture\n");
+	printf("device at %ifps, with a Medium quality preset and a short (%.1fs) warm-up delay.\n", DEFAULT_FRAMES_PER_SECOND, DEFAULT_RECORDING_DELAY);
 
 	printf("\nIf no duration is specified, videosnap will record until you cancel with [Ctrl+c]\n");
 	printf("You can also use videosnap to list attached capture devices by name.\n");
