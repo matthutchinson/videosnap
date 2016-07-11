@@ -13,17 +13,17 @@
 // logging
 #define error(...) fprintf(stderr, __VA_ARGS__)
 #define console(...) printf(__VA_ARGS__)
-#define verbose(...) (YES && fprintf(stderr, __VA_ARGS__))
-#define verbose_error(...) (YES && fprintf(stderr, __VA_ARGS__))
+#define verbose(...) (isVerbose && fprintf(stderr, __VA_ARGS__))
+#define verbose_error(...) (isVerbose && fprintf(stderr, __VA_ARGS__))
 
 // VideoSnap
 @interface VideoSnap : NSObject <AVCaptureFileOutputRecordingDelegate> {
   AVCaptureSession         *session;
   AVCaptureMovieFileOutput *movieFileOutput;
+  BOOL isVerbose;
 }
 
 // class methods
-
 
 /**
  * Prints help text to stdout
@@ -34,7 +34,6 @@
  * Print connected capture device details to stdout
  */
 +(void)listDevices;
-
 
 /**
  * Process command line args and return ret code
@@ -69,12 +68,17 @@
  *
  * @return BOOL
  */
-+(BOOL)captureVideo:(AVCaptureDevice *)videoDevice filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds encodingPreset:(NSString *)encodingPreset delaySeconds:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio;
++(BOOL)captureVideo:(AVCaptureDevice *)videoDevice filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds encodingPreset:(NSString *)encodingPreset delaySeconds:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio isVerbose:(BOOL)isVerbose;
 
 
 // instance methods
 
 -(id)init;
+
+/**
+ * Set verbose mode ON or OFF
+ */
+-(void) setVerbosity:(BOOL)verbosity;
 
 /**
  * Starts a capture session on a device for recordSeconds saving to filePath 

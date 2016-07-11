@@ -9,11 +9,6 @@
 #import "VideoSnap.h"
 
 
-// default verbose flag (not a constant)
-//BOOL is_verbose = YES;
-
-
-
 int main(int argc, const char * argv[]) {
 	// convert C argv values array to NSArray
 	NSMutableArray *args = [[NSMutableArray alloc] initWithCapacity: argc];

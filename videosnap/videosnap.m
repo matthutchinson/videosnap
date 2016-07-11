@@ -53,6 +53,7 @@
 
 /**
  * process command line args and return ret code
+ * TODO: create a seperate class for this, and build a NSDictionary for VideoSnap
  */
 + (int)processArgs:(NSArray *)arguments {
 
@@ -63,6 +64,7 @@
 	NSNumber        *delaySeconds      = [NSNumber numberWithFloat:DEFAULT_RECORDING_DELAY];
 	NSNumber        *recordingDuration = [NSNumber numberWithFloat:DEFAULT_RECORDING_DURATION];
 	BOOL            noAudio            = NO;
+	BOOL            isVerbose          = NO;
 
 	int argc = (int)[arguments count];
 
@@ -91,7 +93,7 @@
 
 					// set verbose flag
 				case 'v':
-					//  is_verbose = YES;
+					isVerbose = YES;
 					break;
 
 					// list devices
@@ -176,24 +178,14 @@
 		return 128;
 	}
 
-	// show options in verbose mode
-	verbose("(options before recording)\n");
-	verbose("  delay:    %.2fs\n",    [delaySeconds floatValue]);
-	verbose("  duration: %.2fs\n",    [recordingDuration floatValue]);
-	verbose("  file:     %s\n",       [filePath UTF8String]);
-	verbose("  video:    %s\n",       [encodingPreset UTF8String]);
-	verbose("  audio:    %s\n",       [noAudio ? @"(none)": @"HQ AAC" UTF8String]);
-	verbose("  device:   %s\n",       [[device localizedName] UTF8String]);
-	verbose("            %s - %s\n",  [[device modelID] UTF8String], [[device manufacturer] UTF8String]);
-
-
-	// start capturing video, start a run loop
+		// start capturing video, start a run loop
 	if ([VideoSnap captureVideo:device
 										 filePath:filePath
 						recordingDuration:recordingDuration
 							 encodingPreset:encodingPreset
 								 delaySeconds:delaySeconds
-											noAudio:noAudio]) {
+											noAudio:noAudio
+										isVerbose:isVerbose]) {
 		[[NSRunLoop currentRunLoop] run];
 	} else {
 		error("Could not initiate a VideoSnap capture\n");
@@ -273,11 +265,13 @@
    recordingDuration:(NSNumber *)recordingDuration
 			encodingPreset:(NSString *)encodingPreset
 				delaySeconds:(NSNumber *)delaySeconds
-             noAudio:(BOOL)noAudio {
+             noAudio:(BOOL)noAudio
+					 isVerbose:(BOOL)isVerbose {
 
   // create an instance of VideoSnap and start the capture session
   VideoSnap *videoSnap;
   videoSnap = [[VideoSnap alloc] init];
+	[videoSnap setVerbosity:isVerbose];
 
   return [videoSnap startSession:device
                         filePath:filePath
@@ -287,6 +281,12 @@
                          noAudio:noAudio];
 }
 
+/**
+ * toggle verbose output in logging
+ */
+-(void) setVerbosity:(BOOL)verbosity {
+	isVerbose = verbosity;
+}
 
 /**
  * start a capture session on a device, saving to filePath for recordSeconds
@@ -300,6 +300,16 @@
 
   BOOL success = NO;
   NSError *nserror;
+
+	// show options
+	verbose("(options before recording)\n");
+	verbose("  delay:    %.2fs\n",    [delaySeconds floatValue]);
+	verbose("  duration: %.2fs\n",    [recordingDuration floatValue]);
+	verbose("  file:     %s\n",       [filePath UTF8String]);
+	verbose("  video:    %s\n",       [encodingPreset UTF8String]);
+	verbose("  audio:    %s\n",       [noAudio ? @"(none)": @"HQ AAC" UTF8String]);
+	verbose("  device:   %s\n",       [[videoDevice localizedName] UTF8String]);
+	verbose("            %s - %s\n",  [[videoDevice modelID] UTF8String], [[videoDevice manufacturer] UTF8String]);
 
 	verbose("(initializing capture session)\n");
   session = [[AVCaptureSession alloc] init];
