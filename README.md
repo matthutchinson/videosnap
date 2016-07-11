@@ -100,7 +100,13 @@ and the steps I can take to reproduce the issue.
 Bug [reports](https://github.com/matthutchinson/videosnap/issues) and [pull
 requests](https://github.com/matthutchinson/videosnap/pulls) are welcome on
 GitHub. Before submitting pull requests, please read the [contributing
-guidelines](https://github.com/matthutchinson/lifx_dash/blob/master/CONTRIBUTING.md)
+guidelines](https://github.com/matthutchinson/videosnap/blob/master/CONTRIBUTING.md)
+for more details.
+
+This project is intended to be a safe, welcoming space for collaboration, and
+contributors are expected to adhere to the [Contributor
+Covenant](http://contributor-covenant.org) code of conduct. See
+[here](https://github.com/matthutchinson/videosnap/blob/master/CODE_OF_CONDUCT.md)
 for more details.
 
 ## Development
@@ -111,6 +117,10 @@ build the project with [Xcode](http://developer.apple.com/xcode/) (using the
 Xcode project workspace in the repository, or with the `xcodebuild` command).
 
 ## Future Work
+
+Work in progress is usually mentioned at the top of the
+[CHANGELOG](https://github.com/matthutchinson/videosnap/blob/master/CHANGELOG.md).
+If you'd like to get involved in contributing, here are some ideas:
 
 * Allow VideoSnap to pipe captured bytes to the STDOUT stream
 * Submit VideoSnap as a package for [Homebrew](http://brew.sh)
