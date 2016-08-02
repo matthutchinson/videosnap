@@ -126,6 +126,7 @@ If you'd like to get involved in contributing, here are some ideas:
 * Submit VideoSnap as a package for [Homebrew](http://brew.sh)
 * Default filename should include a timestamp of when recording began
 * Allow more size/quality options for video and/or audio
+* Smile detection while capturing video/image, determine a happiness factor/score
 * Allow VideoSnap to capture a single frame to an image file (with compression
   options based on file type like [ImageSnap](https://github.com/rharder/imagesnap))
 * A comprehensive test suite in Xcode
