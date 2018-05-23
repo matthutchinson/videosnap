@@ -8,7 +8,7 @@ adheres to [Semantic Versioning](Semver).
 ## [Unreleased]
 
 - Your contribution here!
-- WIP - allow VideoSnap to pipe captured bytes to the STDOUT stream
+- Pipe captured bytes to the STDOUT stream
 
 ## [0.0.3] - 2016-07-11
 ### Changed
