@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 47;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,7 +31,6 @@
 /* Begin PBXFileReference section */
 		C90DA3881D2D50F500BC4021 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		C90DA38A1D2D74CC00BC4021 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		C93496C3235BB2B300E24495 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C946641C1D327B840081A87B /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		C946641E1D327BA50081A87B /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C946641F1D3283490081A87B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -39,6 +38,7 @@
 		C96492FB17C0FD8F005C11A4 /* VideoSnap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoSnap.m; sourceTree = "<group>"; };
 		C96492FD17C0FD8F005C11A4 /* videosnap.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = videosnap.1; sourceTree = "<group>"; };
 		C964930417C10194005C11A4 /* VideoSnap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoSnap.h; sourceTree = "<group>"; };
+		C9D291E0235CFEFF0020FC11 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +75,7 @@
 		C96492FA17C0FD8F005C11A4 /* videosnap */ = {
 			isa = PBXGroup;
 			children = (
-				C93496C3235BB2B300E24495 /* Info.plist */,
+				C9D291E0235CFEFF0020FC11 /* Info.plist */,
 				C96492FD17C0FD8F005C11A4 /* videosnap.1 */,
 				C964930417C10194005C11A4 /* VideoSnap.h */,
 				C96492FB17C0FD8F005C11A4 /* VideoSnap.m */,
@@ -116,7 +116,7 @@
 				ORGANIZATIONNAME = "Matthew Hutchinson";
 			};
 			buildConfigurationList = C96492F317C0FD8F005C11A4 /* Build configuration list for PBXProject "videosnap" */;
-			compatibilityVersion = "Xcode 6.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -173,6 +173,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -228,6 +229,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -255,6 +257,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
+				INFOPLIST_FILE = "$(SRCROOT)/videosnap/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hiddenloop.videosnap;
@@ -267,6 +270,7 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
+				INFOPLIST_FILE = "$(SRCROOT)/videosnap/Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hiddenloop.videosnap;

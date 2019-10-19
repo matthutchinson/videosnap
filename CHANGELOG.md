@@ -10,6 +10,11 @@ adheres to [Semantic Versioning](Semver).
 - Your contribution here!
 - Pipe captured bytes to the STDOUT stream
 
+## [0.0.4] - 2019-10-20
+### Changed
+- Update Xcode project settings to 11.1 (11A1027)
+- Add Info.plist to project and target for Catalina compatability
+
 ## [0.0.3] - 2016-07-11
 ### Changed
 - Ctrl+c cancels capturing, (-t, recordingDuration now optional)
@@ -34,7 +39,8 @@ adheres to [Semantic Versioning](Semver).
 ### Changed
 - Initial release (using the QTKit framework)
 
-[Unreleased]: https://github.com/matthutchinson/videosnap/compare/v0.0.3...HEAD
+[Unreleased]: https://github.com/matthutchinson/videosnap/compare/v0.0.4...HEAD
+[0.0.4]: https://github.com/matthutchinson/videosnap/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/matthutchinson/videosnap/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/matthutchinson/videosnap/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/matthutchinson/videosnap/releases/tag/v0.0.1
