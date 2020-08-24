@@ -3,11 +3,10 @@
 //  videosnap
 //
 //  Created by Matthew Hutchinson on 10/07/2016.
-//  Copyright © 2016 Matthew Hutchinson. All rights reserved.
+//  Copyright © 2020 Matthew Hutchinson. All rights reserved.
 //
 
 #import "VideoSnap.h"
-
 
 /**
  * C globals
@@ -44,6 +43,17 @@ int main(int argc, const char * argv[]) {
 	for (int i = 0; i < argc; i++) {
 		[args addObject: [NSString stringWithCString: argv[i] encoding:NSASCIIStringEncoding]];
 	}
-
+    
+    // opt in to see connected iOS screen devices
+    @autoreleasepool {
+        CMIOObjectPropertyAddress prop = {
+            kCMIOHardwarePropertyAllowScreenCaptureDevices,
+            kCMIOObjectPropertyScopeGlobal,
+            kCMIOObjectPropertyElementMaster
+        };
+        UInt32 allow = 1;
+        CMIOObjectSetPropertyData(kCMIOObjectSystemObject, &prop, 0, NULL, sizeof(allow), &allow);
+    }
+    
 	return [videoSnap processArgs: args];
 }

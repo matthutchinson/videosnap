@@ -3,7 +3,7 @@
 //  videosnap
 //
 //  Created by Matthew Hutchinson on 10/07/2016.
-//  Copyright © 2016 Matthew Hutchinson. All rights reserved.
+//  Copyright © 2020 Matthew Hutchinson. All rights reserved.
 //
 
 extern NSString *const VERSION;

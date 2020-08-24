@@ -3,7 +3,7 @@
 //  VideoSnap
 //
 //  Created by Matthew Hutchinson on 18/08/2013.
-//  Copyright (c) 2016 Matthew Hutchinson. All rights reserved.
+//  Copyright (c) 2020 Matthew Hutchinson. All rights reserved.
 //
 
 #import "VideoSnap.h"
@@ -152,6 +152,7 @@
 			if([arg isEqualToString: @"--no-audio"]) {
 				noAudio = YES;
 			}
+            
 
 			switch ([arg characterAtIndex:1]) {
 					// show help

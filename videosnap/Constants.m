@@ -3,13 +3,13 @@
 //  videosnap
 //
 //  Created by Matthew Hutchinson on 10/07/2016.
-//  Copyright © 2016 Matthew Hutchinson. All rights reserved.
+//  Copyright © 2020 Matthew Hutchinson. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "Constants.h"
 
-NSString *const VERSION = @"0.0.2";
+NSString *const VERSION = @"0.0.5";
 
 int   const DEFAULT_FRAMES_PER_SECOND  = 30;
 float const DEFAULT_RECORDING_DELAY    = 0.5;

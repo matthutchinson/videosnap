@@ -3,10 +3,11 @@
 //  VideoSnap
 //
 //  Created by Matthew Hutchinson on 18/08/2013.
-//  Copyright (c) 2016 Matthew Hutchinson. All rights reserved.
+//  Copyright (c) 2020 Matthew Hutchinson. All rights reserved.
 //
 
 #import <CoreMedia/CoreMedia.h>
+#import <CoreMediaIO/CMIOHardware.h>
 #import <AVFoundation/AVFoundation.h>
 #import "Constants.h"
 

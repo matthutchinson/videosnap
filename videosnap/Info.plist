@@ -2,15 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	<key>NSCameraUsageDescription</key>
-	<string>capture video to files</string>
 	<key>CFBundleDisplayName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>videosnap</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.hiddenloop.videosnap</string>
+	<key>CFBundleName</key>
+	<string>videosnap</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
-	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To capture video from an attached device</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To capture audio from an attached device</string>
 </dict>
 </plist>
