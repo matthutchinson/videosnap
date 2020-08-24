@@ -8,14 +8,21 @@ adheres to [Semantic Versioning](Semver).
 ## [Unreleased]
 
 - Your contribution here!
-- Pipe captured bytes to the STDOUT stream
 
-## [0.0.4] - 2019-10-20
+## [0.0.5] - 2020-Aug-24
+### Added
+- Supports recording from any attached iOS device
+
+### Changed
+- Info.plist now [embedded into binary](https://red-sweater.com/blog/2083/the-power-of-plist)
+- Updated project file and build settings for latest Xcode
+
+## [0.0.4] - 2019-Oct-20
 ### Changed
 - Update Xcode project settings to 11.1 (11A1027)
 - Add Info.plist to project and target for Catalina compatability
 
-## [0.0.3] - 2016-07-11
+## [0.0.3] - 2016-Jul-11
 ### Changed
 - Ctrl+c cancels capturing, (-t, recordingDuration now optional)
 - refactor constants to Constants.h/m
@@ -24,7 +31,7 @@ adheres to [Semantic Versioning](Semver).
 - main.m for C code (including signal handler)
 - message in console when capturing starts
 
-## [0.0.2] - 2016-07-08
+## [0.0.2] - 2016-Jul-08
 ### Changed
 - Use the [AV Foundation](https://developer.apple.com/av-foundation/) framework
 - Encoding presets changed, use `-p` option to set (`-s` option dropped)
@@ -39,7 +46,8 @@ adheres to [Semantic Versioning](Semver).
 ### Changed
 - Initial release (using the QTKit framework)
 
-[Unreleased]: https://github.com/matthutchinson/videosnap/compare/v0.0.4...HEAD
+[Unreleased]: https://github.com/matthutchinson/videosnap/compare/v0.0.5...HEADS
+[0.0.5]: https://github.com/matthutchinson/videosnap/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/matthutchinson/videosnap/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/matthutchinson/videosnap/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/matthutchinson/videosnap/compare/v0.0.1...v0.0.2
