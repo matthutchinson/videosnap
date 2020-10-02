@@ -41,7 +41,7 @@ int main(int argc, const char * argv[]) {
 	// convert C argv values array to NSArray
 	NSMutableArray *args = [[NSMutableArray alloc] initWithCapacity: argc];
 	for (int i = 0; i < argc; i++) {
-		[args addObject: [NSString stringWithCString: argv[i] encoding:NSASCIIStringEncoding]];
+		[args addObject: [NSString stringWithCString: argv[i] encoding:NSUTF8StringEncoding]];
 	}
     
     // opt in to see connected iOS screen devices
