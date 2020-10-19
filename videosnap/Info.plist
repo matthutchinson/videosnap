@@ -9,7 +9,7 @@
 	<key>CFBundleName</key>
 	<string>videosnap</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<string>0.0.6</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To capture video from an attached device</string>
 	<key>NSMicrophoneUsageDescription</key>

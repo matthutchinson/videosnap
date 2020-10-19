@@ -7,26 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		92BEE3AF24F3D6EF00980A8A /* Info.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 92BAECEE24F3D0FE00C1EA5B /* Info.plist */; };
 		92BEE3BA24F3F9F100980A8A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BEE3B724F3F9E400980A8A /* CoreMedia.framework */; };
 		92BEE3BB24F3F9F400980A8A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BEE3B924F3F9E400980A8A /* AVFoundation.framework */; };
 		92BEE3BC24F3F9F600980A8A /* CoreMediaIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BEE3B824F3F9E400980A8A /* CoreMediaIO.framework */; };
 		C946641D1D327B840081A87B /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = C946641C1D327B840081A87B /* Constants.m */; };
 		C94664201D3283490081A87B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C946641F1D3283490081A87B /* main.m */; };
 		C96492FC17C0FD8F005C11A4 /* VideoSnap.m in Sources */ = {isa = PBXBuildFile; fileRef = C96492FB17C0FD8F005C11A4 /* VideoSnap.m */; };
-		C96492FE17C0FD8F005C11A4 /* videosnap.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C96492FD17C0FD8F005C11A4 /* videosnap.1 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		C96492F617C0FD8F005C11A4 /* CopyFiles */ = {
+		C96492F617C0FD8F005C11A4 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				92BEE3AF24F3D6EF00980A8A /* Info.plist in CopyFiles */,
-				C96492FE17C0FD8F005C11A4 /* videosnap.1 in CopyFiles */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -41,7 +38,7 @@
 		C946641F1D3283490081A87B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C96492F817C0FD8F005C11A4 /* videosnap */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = videosnap; sourceTree = BUILT_PRODUCTS_DIR; };
 		C96492FB17C0FD8F005C11A4 /* VideoSnap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoSnap.m; sourceTree = "<group>"; };
-		C96492FD17C0FD8F005C11A4 /* videosnap.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = videosnap.1; sourceTree = "<group>"; };
+		C96492FD17C0FD8F005C11A4 /* videosnap.1 */ = {isa = PBXFileReference; explicitFileType = text.man; name = videosnap.1; path = videosnap/videosnap.1; sourceTree = SOURCE_ROOT; };
 		C964930417C10194005C11A4 /* VideoSnap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoSnap.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -101,7 +98,7 @@
 			buildPhases = (
 				C96492F417C0FD8F005C11A4 /* Sources */,
 				C96492F517C0FD8F005C11A4 /* Frameworks */,
-				C96492F617C0FD8F005C11A4 /* CopyFiles */,
+				C96492F617C0FD8F005C11A4 /* Copy Files */,
 			);
 			buildRules = (
 			);
@@ -292,7 +289,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
-				MARKETING_VERSION = 0.0.5;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8VF6UH3LYN;
+				MARKETING_VERSION = 0.0.6;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -301,7 +301,10 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
-				MARKETING_VERSION = 0.0.5;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8VF6UH3LYN;
+				MARKETING_VERSION = 0.0.6;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

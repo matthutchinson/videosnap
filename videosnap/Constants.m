@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Constants.h"
 
-NSString *const VERSION = @"0.0.5";
+NSString *const VERSION = @"0.0.6";
 
 int   const DEFAULT_FRAMES_PER_SECOND  = 30;
 float const DEFAULT_RECORDING_DELAY    = 0.5;

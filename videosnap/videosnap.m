@@ -155,24 +155,24 @@
             
 
 			switch ([arg characterAtIndex:1]) {
-					// show help
+                // show help
 				case 'h':
 					[VideoSnap printHelp];
 					return 0;
 					break;
 
-					// set verbose flag
+                // set verbose flag
 				case 'v':
 					isVerbose = YES;
 					break;
 
-					// list devices
+                // list devices
 				case 'l':
 					[VideoSnap listDevices];
 					return 0;
 					break;
 
-					// device
+                // device
 				case 'd':
 					if (i+1 < argc) {
 						device = [VideoSnap deviceNamed:argValue];
@@ -185,7 +185,7 @@
 					break;
 
 
-					// encodingPreset
+                // encodingPreset
 				case 'p':
 					if (i+1 < argc) {
 						encodingPreset = argValue;
@@ -193,7 +193,7 @@
 					}
 					break;
 
-					// delaySeconds
+                // delaySeconds
 				case 'w':
 					if (i+1 < argc) {
 						delaySeconds = [NSNumber numberWithFloat:[argValue floatValue]];
@@ -201,7 +201,7 @@
 					}
 					break;
 
-					// recordingDuration
+                // recordingDuration
 				case 't':
 					if (i+1 < argc) {
 						recordingDuration = [NSNumber numberWithFloat:[argValue floatValue]];
