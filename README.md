@@ -23,14 +23,10 @@ try [wacaw](http://webcam-tools.sourceforge.net).
 ## Installation
 
 Download the [latest
-release](https://github.com/matthutchinson/videosnap/releases) and
-unpack it like so:
+release](https://github.com/matthutchinson/videosnap/releases) and run the
+installer.
 
-    tar -zxvf videosnap-[version].tar.gz
-    cp -R videosnap/usr/local/* /usr/local/
-
-This will unzip the archive, and copy the binary and man page to your
-`/usr/local` directories.
+This will copy the binary and man page to your `/usr/local` directory.
 
 ## Usage
 

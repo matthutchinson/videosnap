@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		92BEE3BA24F3F9F100980A8A /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BEE3B724F3F9E400980A8A /* CoreMedia.framework */; };
 		92BEE3BB24F3F9F400980A8A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BEE3B924F3F9E400980A8A /* AVFoundation.framework */; };
 		92BEE3BC24F3F9F600980A8A /* CoreMediaIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BEE3B824F3F9E400980A8A /* CoreMediaIO.framework */; };
+		C906028E253DDA1300DC53B0 /* videosnap.1 in Copy Files */ = {isa = PBXBuildFile; fileRef = C96492FD17C0FD8F005C11A4 /* videosnap.1 */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		C946641D1D327B840081A87B /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = C946641C1D327B840081A87B /* Constants.m */; };
 		C94664201D3283490081A87B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C946641F1D3283490081A87B /* main.m */; };
 		C96492FC17C0FD8F005C11A4 /* VideoSnap.m in Sources */ = {isa = PBXBuildFile; fileRef = C96492FB17C0FD8F005C11A4 /* VideoSnap.m */; };
@@ -18,13 +19,14 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		C96492F617C0FD8F005C11A4 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
-			dstPath = "";
-			dstSubfolderSpec = 16;
+			buildActionMask = 8;
+			dstPath = usr/local/share/man/man1;
+			dstSubfolderSpec = 7;
 			files = (
+				C906028E253DDA1300DC53B0 /* videosnap.1 in Copy Files */,
 			);
 			name = "Copy Files";
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -33,6 +35,7 @@
 		92BEE3B724F3F9E400980A8A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		92BEE3B824F3F9E400980A8A /* CoreMediaIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMediaIO.framework; path = System/Library/Frameworks/CoreMediaIO.framework; sourceTree = SDKROOT; };
 		92BEE3B924F3F9E400980A8A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C906028F253DDD2000DC53B0 /* buildCleanPkgAndNotarize.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = buildCleanPkgAndNotarize.sh; sourceTree = SOURCE_ROOT; };
 		C946641C1D327B840081A87B /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		C946641E1D327BA50081A87B /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C946641F1D3283490081A87B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -78,6 +81,7 @@
 		C96492FA17C0FD8F005C11A4 /* videosnap */ = {
 			isa = PBXGroup;
 			children = (
+				C906028F253DDD2000DC53B0 /* buildCleanPkgAndNotarize.sh */,
 				92BAECEE24F3D0FE00C1EA5B /* Info.plist */,
 				C96492FD17C0FD8F005C11A4 /* videosnap.1 */,
 				C964930417C10194005C11A4 /* VideoSnap.h */,
@@ -119,7 +123,7 @@
 				ORGANIZATIONNAME = "Matthew Hutchinson";
 			};
 			buildConfigurationList = C96492F317C0FD8F005C11A4 /* Build configuration list for PBXProject "videosnap" */;
-			compatibilityVersion = "Xcode 10.0";
+			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -179,6 +183,7 @@
 				COPY_PHASE_STRIP = YES;
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				DONT_GENERATE_INFOPLIST_FILE = NO;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -251,6 +256,7 @@
 				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DONT_GENERATE_INFOPLIST_FILE = NO;
+				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -288,9 +294,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 8VF6UH3LYN;
+				DSTROOT = $SRCROOT/build/pkgroot;
+				ENABLE_HARDENED_RUNTIME = YES;
 				MARKETING_VERSION = 0.0.6;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -300,9 +308,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 8VF6UH3LYN;
+				DSTROOT = $SRCROOT/build/pkgroot;
+				ENABLE_HARDENED_RUNTIME = YES;
 				MARKETING_VERSION = 0.0.6;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
