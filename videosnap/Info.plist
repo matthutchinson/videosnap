@@ -14,5 +14,7 @@
 	<string>To capture video from an attached device</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To capture audio from an attached device</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.7</string>
 </dict>
 </plist>

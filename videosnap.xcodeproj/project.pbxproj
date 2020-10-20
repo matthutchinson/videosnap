@@ -39,10 +39,11 @@
 		C946641C1D327B840081A87B /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		C946641E1D327BA50081A87B /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C946641F1D3283490081A87B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C96492F817C0FD8F005C11A4 /* videosnap */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = videosnap; sourceTree = BUILT_PRODUCTS_DIR; };
+		C96492F817C0FD8F005C11A4 /* videosnap */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = videosnap; sourceTree = BUILT_PRODUCTS_DIR; };
 		C96492FB17C0FD8F005C11A4 /* VideoSnap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoSnap.m; sourceTree = "<group>"; };
 		C96492FD17C0FD8F005C11A4 /* videosnap.1 */ = {isa = PBXFileReference; explicitFileType = text.man; name = videosnap.1; path = videosnap/videosnap.1; sourceTree = SOURCE_ROOT; };
 		C964930417C10194005C11A4 /* VideoSnap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoSnap.h; sourceTree = "<group>"; };
+		C978D45E253F6CE900B24183 /* videosnap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = videosnap.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +82,7 @@
 		C96492FA17C0FD8F005C11A4 /* videosnap */ = {
 			isa = PBXGroup;
 			children = (
+				C978D45E253F6CE900B24183 /* videosnap.entitlements */,
 				C906028F253DDD2000DC53B0 /* buildCleanPkgAndNotarize.sh */,
 				92BAECEE24F3D0FE00C1EA5B /* Info.plist */,
 				C96492FD17C0FD8F005C11A4 /* videosnap.1 */,
@@ -119,7 +121,7 @@
 		C96492F017C0FD8F005C11A4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1110;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Matthew Hutchinson";
 			};
 			buildConfigurationList = C96492F317C0FD8F005C11A4 /* Build configuration list for PBXProject "videosnap" */;
@@ -174,6 +176,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -246,6 +249,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -294,12 +298,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_ENTITLEMENTS = videosnap/videosnap.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 8VF6UH3LYN;
 				DSTROOT = $SRCROOT/build/pkgroot;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MARKETING_VERSION = 0.0.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hiddenloop.videosnap;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -308,12 +315,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_ENTITLEMENTS = videosnap/videosnap.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 8VF6UH3LYN;
 				DSTROOT = $SRCROOT/build/pkgroot;
 				ENABLE_HARDENED_RUNTIME = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MARKETING_VERSION = 0.0.6;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hiddenloop.videosnap;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
