@@ -125,7 +125,7 @@ If you'd like to get involved in contributing, here are some ideas:
 * Smile detection while capturing video/image, determine a happiness factor/score
 * Allow VideoSnap to capture a single frame to an image file (with compression
   options based on file type like [ImageSnap](https://github.com/rharder/imagesnap))
-* A comprehensive test suite in Xcode
+* A comprehensive test suite
 
 ## License
 
