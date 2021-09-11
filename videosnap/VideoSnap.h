@@ -22,6 +22,8 @@
   AVCaptureSession         *session;
   AVCaptureMovieFileOutput *movieFileOutput;
   BOOL                     isVerbose;
+  AVCaptureConnection *conn;
+  NSString *filePath;
 }
 
 // class methods
@@ -74,8 +76,8 @@
 -(void)setVerbosity:(BOOL)verbosity;
 
 /**
- * Starts a capture session on a device for recordSeconds saving to filePath 
- * using the encodingPreset (with an optional delay) returns (BOOL) YES if 
+ * Starts a capture session on a device for recordSeconds saving to filePath
+ * using the encodingPreset (with an optional delay) returns (BOOL) YES if
  * successful
  *
  * @return BOOL
@@ -101,6 +103,16 @@
  * Delegates stopRecording to movieFileOutput, with SIGINT value from handler
  */
 -(void)stopRecording:(int)sigNum;
+
+/**
+ * Get default generated filename
+ */
+-(NSString *)getDefaultFilename;
+
+/**
+ * Delegates togglePauseRecording to movieFileOutput, with SIGINT value from handler
+ */
+-(void)togglePauseRecording:(int)sigNum;
 
 /**
  * AVCaptureMovieFileOutput delegate, called when output file has been finally
