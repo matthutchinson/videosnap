@@ -9,6 +9,15 @@ adheres to [Semantic Versioning](Semver).
 
 - Your contribution here!
 
+## [0.0.7] - 2020-Oct-19
+### Added
+- Fix issues with connected iOS device discovery and build/test on M1 arch
+
+### Changed
+- Min version off macOS is 10.9
+- Minor changes to printHelp and man page copy
+- Device discovery using run loop to wait/wake up connected devices
+
 ## [0.0.5] - 2020-Aug-24
 ### Added
 - Supports recording from any attached iOS device
@@ -46,7 +55,8 @@ adheres to [Semantic Versioning](Semver).
 ### Changed
 - Initial release (using the QTKit framework)
 
-[Unreleased]: https://github.com/matthutchinson/videosnap/compare/v0.0.5...HEAD
+[Unreleased]: https://github.com/matthutchinson/videosnap/compare/v0.0.7...HEAD
+[0.0.7]: https://github.com/matthutchinson/videosnap/compare/v0.0.5...v0.0.7
 [0.0.5]: https://github.com/matthutchinson/videosnap/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/matthutchinson/videosnap/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/matthutchinson/videosnap/compare/v0.0.2...v0.0.3
