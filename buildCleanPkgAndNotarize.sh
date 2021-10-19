@@ -16,7 +16,6 @@
 #
 # you want to add the `build` subdirectory to gitignore
 
-
 # put your dev account information into these variables
 
 # the email address of your developer account
@@ -31,12 +30,10 @@ dev_team="8VF6UH3LYN"
 # the label of the keychain item which contains an app-specific password
 dev_keychain_label="Developer-altool"
 
-
 # put your project's information into these variables
-version="0.0.6"
+version="0.0.7"
 identifier="com.hiddenloop.videosnap"
 productname="videosnap"
-
 
 # code starts here
 projectdir=$(dirname $0)
@@ -117,11 +114,9 @@ mkdir -p "$pkgroot/usr/local/share/man/man1"
 cp "$productname/videosnap.1" "$pkgroot/usr/local/share/man/man1/videosnap.1"
 
 ## build the pkg
-
 pkgpath="$builddir/$productname-$version.pkg"
 
 echo "## building pkg: $pkgpath"
-
 pkgbuild --root "$pkgroot" \
          --version "$version" \
          --identifier "$identifier" \

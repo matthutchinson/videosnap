@@ -2,8 +2,7 @@
 //  main.m
 //  videosnap
 //
-//  Created by Matthew Hutchinson on 10/07/2016.
-//  Copyright © 2020 Matthew Hutchinson. All rights reserved.
+//  Created by Matthew Hutchinson
 //
 
 #import "VideoSnap.h"
@@ -33,27 +32,21 @@ void SIGINT_handler(int signum) {
 int main(int argc, const char * argv[]) {
 
 	isInterrupted = NO;
-	videoSnap     = [[VideoSnap alloc] init];
-
+	
 	// setup int handler for Ctrl+C cancelling
 	signal(SIGINT, &SIGINT_handler);
 
-	// convert C argv values array to NSArray
+	// C args as NSArray
 	NSMutableArray *args = [[NSMutableArray alloc] initWithCapacity: argc];
 	for (int i = 0; i < argc; i++) {
-		[args addObject: [NSString stringWithCString: argv[i] encoding:NSUTF8StringEncoding]];
+		[args addObject: [NSString stringWithCString: argv[i] encoding: NSUTF8StringEncoding]];
 	}
     
-    // opt in to see connected iOS screen devices
-    @autoreleasepool {
-        CMIOObjectPropertyAddress prop = {
-            kCMIOHardwarePropertyAllowScreenCaptureDevices,
-            kCMIOObjectPropertyScopeGlobal,
-            kCMIOObjectPropertyElementMaster
-        };
-        UInt32 allow = 1;
-        CMIOObjectSetPropertyData(kCMIOObjectSystemObject, &prop, 0, NULL, sizeof(allow), &allow);
-    }
+    // debugging some args
+    //[args addObject: @"-v"];
+    //[args addObject: @"-l"];
     
-	return [videoSnap processArgs: args];
+    videoSnap = [[VideoSnap alloc] initWithVerbosity:([args indexOfObject:@"-v"] != NSNotFound)];
+
+    return [videoSnap processArgs: args];
 }
