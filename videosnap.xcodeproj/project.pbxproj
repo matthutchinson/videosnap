@@ -35,7 +35,6 @@
 		92BEE3B724F3F9E400980A8A /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		92BEE3B824F3F9E400980A8A /* CoreMediaIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMediaIO.framework; path = System/Library/Frameworks/CoreMediaIO.framework; sourceTree = SDKROOT; };
 		92BEE3B924F3F9E400980A8A /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		C906028F253DDD2000DC53B0 /* buildCleanPkgAndNotarize.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = buildCleanPkgAndNotarize.sh; sourceTree = SOURCE_ROOT; };
 		C946641C1D327B840081A87B /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		C946641E1D327BA50081A87B /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C946641F1D3283490081A87B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -83,7 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				C978D45E253F6CE900B24183 /* videosnap.entitlements */,
-				C906028F253DDD2000DC53B0 /* buildCleanPkgAndNotarize.sh */,
 				92BAECEE24F3D0FE00C1EA5B /* Info.plist */,
 				C96492FD17C0FD8F005C11A4 /* videosnap.1 */,
 				C964930417C10194005C11A4 /* VideoSnap.h */,
@@ -305,7 +303,7 @@
 				DSTROOT = $SRCROOT/build/pkgroot;
 				ENABLE_HARDENED_RUNTIME = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hiddenloop.videosnap;
+				PRODUCT_BUNDLE_IDENTIFIER = videosnap.hiddenloop.com;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -321,7 +319,7 @@
 				DSTROOT = $SRCROOT/build/pkgroot;
 				ENABLE_HARDENED_RUNTIME = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hiddenloop.videosnap;
+				PRODUCT_BUNDLE_IDENTIFIER = videosnap.hiddenloop.com;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;

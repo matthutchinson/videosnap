@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>videosnap</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.hiddenloop.videosnap</string>
+	<string>videosnap.hiddenloop.com</string>
 	<key>CFBundleName</key>
 	<string>videosnap</string>
 	<key>CFBundleShortVersionString</key>

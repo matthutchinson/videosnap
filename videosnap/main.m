@@ -44,6 +44,7 @@ int main(int argc, const char * argv[]) {
     
     // debugging some args
     //[args addObject: @"-v"];
+    //[args addObject: @"-h"];
     //[args addObject: @"-l"];
     
     videoSnap = [[VideoSnap alloc] initWithVerbosity:([args indexOfObject:@"-v"] != NSNotFound)];
