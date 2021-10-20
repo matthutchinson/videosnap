@@ -17,6 +17,9 @@ adheres to [Semantic Versioning](Semver).
 - Min version off macOS is 10.9
 - Minor changes to printHelp and man page copy
 - Device discovery using run loop to wait/wake up connected devices
+- Updated release scheme to work with package building/notarizing and stapling
+  (see
+  [here](https://scriptingosx.com/2021/07/notarize-a-command-line-tool-with-notarytool/) for details)
 
 ## [0.0.5] - 2020-Aug-24
 ### Added
