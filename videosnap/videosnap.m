@@ -2,104 +2,281 @@
 //  VideoSnap.m
 //  VideoSnap
 //
-//  Created by Matthew Hutchinson on 18/08/2013.
-//  Copyright (c) 2020 Matthew Hutchinson. All rights reserved.
+//  Created by Matthew Hutchinson
 //
 
 #import "VideoSnap.h"
 
 @implementation VideoSnap
 
-
 /**
- * print formatted help and options for the command
+ * Prints help text to stdout
  */
 + (void)printHelp {
 
-	printf("VideoSnap (%s)\n\n", [VERSION UTF8String]);
+	console("VideoSnap (%s)\n\n", [VERSION UTF8String]);
+	console("Record video and audio from a capture device\n\n");
 
-	printf("Record video and audio from a capture device\n\n");
+	console("You can specify which device to capture from, the duration, encoding and delay\n");
+	console("period (before capturing starts). You can also disable audio capture. By default\n");
+	console("videosnap will capture video and audio from the first found device at %ifps with\n", DEFAULT_FRAMES_PER_SECOND);
+	console("a Medium quality preset and a short (%.1fs) warm-up delay.\n", DEFAULT_RECORDING_DELAY);
 
-	printf("You can specify which device to capture from, the duration, encoding and a delay\n");
-	printf("period (before capturing starts). You can also disable audio recording.\n");
-	printf("By default videosnap will capture both video and audio from the default capture\n");
-	printf("device at %ifps, with a Medium quality preset and a short (%.1fs) warm-up delay.\n", DEFAULT_FRAMES_PER_SECOND, DEFAULT_RECORDING_DELAY);
+	console("\nIf no duration is specified, videosnap will record until you cancel [Ctrl+c]\n");
+	console("You can also use videosnap to list attached capture devices by name.\n");
 
-	printf("\nIf no duration is specified, videosnap will record until you cancel with [Ctrl+c]\n");
-	printf("You can also use videosnap to list attached capture devices by name.\n");
+	console("\nusage: videosnap [options] [file ...]");
+	console("\n   eg: videosnap -t 5.75 -d 'FaceTime HD Camera (Built-in)' -p 'High' movie.mov\n\n");
 
-	printf("\n  usage: videosnap [options] [file ...]");
-	printf("\nexample: videosnap -t 5.75 -d 'Built-in iSight' -p 'High' my_movie.mov\n\n");
-
-	printf("  -l          List attached capture devices\n");
-	printf("  -w x.xx     Set delay before capturing starts (in seconds, default %.1fs) \n", DEFAULT_RECORDING_DELAY);
-	printf("  -t x.xx     Set duration of video (in seconds)\n");
-	printf("  -d device   Set the capture device (by name, use -l to list attached devices)\n");
-	printf("  --no-audio  Don't capture audio\n");
-	printf("  -v          Turn ON verbose mode (OFF by default)\n");
-	printf("  -h          Show help\n");
-	printf("  -p          Set the encoding preset (Medium by default)\n");
+	console("  -l          List attached capture devices\n");
+	console("  -w x.xx     Set delay before capturing starts (in seconds, default %.1fs) \n", DEFAULT_RECORDING_DELAY);
+	console("  -t x.xx     Set duration of video (in seconds)\n");
+	console("  -d device   Set the capture device (by name, use -l to list attached devices)\n");
+	console("  --no-audio  Don't capture audio\n");
+	console("  -v          Turn ON verbose mode (OFF by default)\n");
+	console("  -h          Show help\n");
+	console("  -p          Set the encoding preset (Medium by default)\n");
 
 	NSArray *encodingPresets = [DEFAULT_ENCODING_PRESETS componentsSeparatedByString:@", "];
 	for (id encodingPreset in encodingPresets) {
-		printf("                %s%s\n", [encodingPreset UTF8String], [[encodingPreset isEqualToString:DEFAULT_ENCODING_PRESET] ? @" (default)" : @"" UTF8String]);
+		console("                %s%s\n", [encodingPreset UTF8String], [[encodingPreset isEqualToString:DEFAULT_ENCODING_PRESET] ? @" (default)" : @"" UTF8String]);
 	}
-	printf("\n");
+	console("\n");
 }
 
+/**
+ * Initializer, setting verbosity
+ */
+- (id)initWithVerbosity:(BOOL)verbosity {
+    isVerbose = verbosity;
+    return [super init];
+}
 
 /**
- * print connected capture device details to stdout
+ * Process command line args and return program ret code
+ * TODO: refactor/create a seperate class for this, and build a NSDictionary for VideoSnap
+ *       consider using NSUserDefaults somehow
+ *       http://perspx.com/archives/parsing-command-line-arguments-nsuserdefaults/
  */
-+ (void)listDevices {
+- (int)processArgs:(NSArray *)arguments {
+    
+    // argument defaults
+    AVCaptureDevice *device;
+    NSString        *filePath;
+    NSString        *encodingPreset    = DEFAULT_ENCODING_PRESET;
+    NSNumber        *delaySeconds      = [NSNumber numberWithFloat:DEFAULT_RECORDING_DELAY];
+    NSNumber        *recordingDuration = nil;
+    BOOL            noAudio            = NO;
+     
+    int argc = (int)[arguments count];
+    
+    // only discover devices if we need to
+    if([arguments indexOfObject:@"-h"] != NSNotFound) {
+        [VideoSnap printHelp];
+        return 0;
+    } else {
+        [self discoverDevices];
+    }
+    
+    for (int i = 1; i < argc; i++) {
+        NSString *argValue;
+        NSString *arg = [arguments objectAtIndex: i];
 
-	NSArray *devices = [VideoSnap videoDevices];
-	unsigned long deviceCount = [devices count];
+        // set argument value if present
+        if (i+1 < argc) {
+            argValue = [arguments objectAtIndex: i+1];
+        }
 
+        // check for switches
+        if ([arg characterAtIndex:0] == '-') {
+            
+            if([arg isEqualToString: @"--no-audio"]) {
+                noAudio = YES;
+            }
+            
+            switch ([arg characterAtIndex:1]) {
+                // list devices
+                case 'l':
+                    [self listConnectedDevices];
+                    return 0;
+                    break;
+
+                // device
+                case 'd':
+                    if (i+1 < argc) {
+                        device = [self deviceNamed:argValue];
+                        if (device == nil) {
+                            error("Device \"%s\" not found - aborting\n", [argValue UTF8String]);
+                            return 128;
+                        }
+                        ++i;
+                    }
+                    break;
+
+                // encodingPreset
+                case 'p':
+                    if (i+1 < argc) {
+                        encodingPreset = argValue;
+                        ++i;
+                    }
+                    break;
+
+                // delaySeconds
+                case 'w':
+                    if (i+1 < argc) {
+                        delaySeconds = [NSNumber numberWithFloat:[argValue floatValue]];
+                        ++i;
+                    }
+                    break;
+
+                // recordingDuration
+                case 't':
+                    if (i+1 < argc) {
+                        recordingDuration = [NSNumber numberWithFloat:[argValue floatValue]];
+                        ++i;
+                    }
+                    break;
+            }
+        } else  {
+            filePath = arg;
+        }
+    }
+
+    // check we have a file
+    if (filePath == nil) {
+        filePath = DEFAULT_RECORDING_FILENAME;
+        verbose("(no filename specified, using default)\n");
+    }
+
+    // check we have a device
+    if (device == nil) {
+        device = [self defaultDevice];
+        if (device == nil) {
+            error("No video devices found! - aborting\n");
+            return 1;
+        } else {
+            verbose("(no device specified, using default)\n");
+        }
+    }
+
+    // check we have a positive non zero duration
+    if ([recordingDuration floatValue] <= 0.0f) {
+        recordingDuration = nil;
+    }
+
+    // check we have a valid encodingPreset
+    NSArray *encodingPresets = [DEFAULT_ENCODING_PRESETS componentsSeparatedByString:@", "];
+    NSArray *validChosenSize = [encodingPresets filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *option, NSDictionary *bindings) {
+        return [encodingPreset isEqualToString:option];
+    }]];
+
+    if (!validChosenSize.count) {
+        error("Invalid video preset! (must be one of %s) - aborting\n", [DEFAULT_ENCODING_PRESETS UTF8String]);
+        return 128;
+    }
+
+    // start capturing video, start a run loop
+    if ([self startSession:device
+                                filePath:filePath
+              recordingDuration:recordingDuration
+                    encodingPreset:encodingPreset
+                        delaySeconds:delaySeconds
+                                 noAudio:noAudio]) {
+
+        if(recordingDuration != nil) {
+            console("Started capture...\n");
+        } else {
+            console("Started capture (ctrl+c to stop)...\n");
+        }
+        [[NSRunLoop currentRunLoop] run];
+    } else {
+        error("Could not initiate a VideoSnap capture\n");
+    }
+    return 0;
+}
+
+/**
+ * Returns the default device (first found) or nil if none found
+ */
+- (AVCaptureDevice *)defaultDevice {
+  return [connectedDevices firstObject];
+}
+
+/**
+ * Discover (and wake up) all connected devices
+ */
+- (void)discoverDevices {
+    connectedDevices = [NSMutableArray array];
+    verbose("(discovering devices)\n");
+    
+    // opt in to see any connected iOS screen capture devices
+    CMIOObjectPropertyAddress prop = {
+        kCMIOHardwarePropertyAllowScreenCaptureDevices,
+        kCMIOObjectPropertyScopeGlobal,
+        kCMIOObjectPropertyElementMaster
+    };
+    UInt32 allow = 1;
+    CMIOObjectSetPropertyData(kCMIOObjectSystemObject, &prop, 0, NULL, sizeof(allow), &allow);
+    
+    if (@available(macOS 10.15, *)) {
+        AVCaptureDeviceDiscoverySession *discoverySession = [
+                AVCaptureDeviceDiscoverySession
+                discoverySessionWithDeviceTypes:
+                    @[AVCaptureDeviceTypeBuiltInWideAngleCamera,
+                      AVCaptureDeviceTypeExternalUnknown]
+                mediaType:NULL
+                position:AVCaptureDevicePositionUnspecified
+            ];
+        for (AVCaptureDevice *device in discoverySession.devices) {
+          if([device hasMediaType:AVMediaTypeMuxed] || [device hasMediaType:AVMediaTypeVideo]) {
+            [connectedDevices addObject: device];
+          }
+        }
+    } else {
+        [connectedDevices addObjectsFromArray:[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]];
+        [connectedDevices addObjectsFromArray:[AVCaptureDevice devicesWithMediaType:AVMediaTypeMuxed]];
+    }
+    
+    verbose("(waking up any connected devices, waiting 0.5s) ...\n");
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    id connObserver =[nc addObserverForName:AVCaptureDeviceWasConnectedNotification
+                                        object:nil
+                                         queue:[NSOperationQueue mainQueue]
+                                    usingBlock:^(NSNotification *note) {
+        
+        AVCaptureDevice* connectedDevice = (AVCaptureDevice*)note.object;
+        if([connectedDevice hasMediaType:AVMediaTypeMuxed] || [connectedDevice hasMediaType:AVMediaTypeVideo]) {
+          [self->connectedDevices addObject: connectedDevice];
+          verbose("  work up: %s\n", [[connectedDevice localizedName] UTF8String]);
+        }
+    }];
+    
+    // wait, 0.5 sec in a run loop
+    [[NSRunLoop currentRunLoop] runUntilDate:[[[NSDate alloc] init] dateByAddingTimeInterval: 0.5]];
+    [nc removeObserver:connObserver];
+}
+
+/**
+ * List all connected devices by name to stdout
+ */
+- (void)listConnectedDevices {
+    unsigned long deviceCount = [connectedDevices count];
 	if (deviceCount > 0) {
-		console("Found %li available video devices:\n", deviceCount);
-		for (AVCaptureDevice *device in devices) {
-			printf("* %s\n", [[device localizedName] UTF8String]);
+		console("Found %li connected video devices:\n", deviceCount);
+		for (AVCaptureDevice *device in connectedDevices) {
+			console("* %s\n", [[device localizedName] UTF8String]);
 		}
 	} else {
 		console("No video devices found.\n");
 	}
 }
 
-
 /**
- * return an array of attached AVCaptureDevices
+ * Returns a device matching on localizedName or nil if not found
  */
-+ (NSArray *)videoDevices {
-  NSMutableArray *devices = [NSMutableArray arrayWithCapacity:1];
-  [devices addObjectsFromArray:[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]];
-  [devices addObjectsFromArray:[AVCaptureDevice devicesWithMediaType:AVMediaTypeMuxed]];
-
-  return devices;
-}
-
-
-/**
- * returns the default AVCaptureDevice or nil
- */
-+ (AVCaptureDevice *)defaultDevice {
+- (AVCaptureDevice *)deviceNamed:(NSString *)name {
   AVCaptureDevice *device = nil;
-  device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-  if (device == nil) {
-    device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeMuxed];
-  }
-
-  return device;
-}
-
-
-/**
- * returns a AVCaptureDevice matching on localizedName or nil if not found
- */
-+ (AVCaptureDevice *)deviceNamed:(NSString *)name {
-  AVCaptureDevice *device = nil;
-  NSArray *devices = [VideoSnap videoDevices];
-  for (AVCaptureDevice *thisDevice in devices) {
+  for (AVCaptureDevice *thisDevice in connectedDevices) {
     if ([name isEqualToString:[thisDevice localizedName]]) {
       device = thisDevice;
     }
@@ -108,178 +285,8 @@
   return device;
 }
 
-
 /**
- * initialization
- */
-- (id)init {
-	return [super init];
-}
-
-
-/**
- * process command line args and return ret code
- * TODO: create a seperate class for this, and build a NSDictionary for VideoSnap
- *       consider using NSUserDefaults somehow
- *       http://perspx.com/archives/parsing-command-line-arguments-nsuserdefaults/
- */
-- (int)processArgs:(NSArray *)arguments {
-
-	// argument defaults
-	AVCaptureDevice *device;
-	NSString        *filePath;
-	NSString        *encodingPreset    = DEFAULT_ENCODING_PRESET;
-	NSNumber        *delaySeconds      = [NSNumber numberWithFloat:DEFAULT_RECORDING_DELAY];
-	NSNumber        *recordingDuration = nil;
-	BOOL            noAudio            = NO;
-
-	isVerbose = NO;
-
-	int argc = (int)[arguments count];
-
-	for (int i = 1; i < argc; i++) {
-		NSString *argValue;
-		NSString *arg = [arguments objectAtIndex: i];
-
-		// set arguement value if present
-		if (i+1 < argc) {
-			argValue = [arguments objectAtIndex: i+1];
-		}
-
-		// check for switches
-		if ([arg characterAtIndex:0] == '-') {
-
-			if([arg isEqualToString: @"--no-audio"]) {
-				noAudio = YES;
-			}
-            
-
-			switch ([arg characterAtIndex:1]) {
-                // show help
-				case 'h':
-					[VideoSnap printHelp];
-					return 0;
-					break;
-
-                // set verbose flag
-				case 'v':
-					isVerbose = YES;
-					break;
-
-                // list devices
-				case 'l':
-					[VideoSnap listDevices];
-					return 0;
-					break;
-
-                // device
-				case 'd':
-					if (i+1 < argc) {
-						device = [VideoSnap deviceNamed:argValue];
-						if (device == nil) {
-							error("Device \"%s\" not found - aborting\n", [argValue UTF8String]);
-							return 128;
-						}
-						++i;
-					}
-					break;
-
-
-                // encodingPreset
-				case 'p':
-					if (i+1 < argc) {
-						encodingPreset = argValue;
-						++i;
-					}
-					break;
-
-                // delaySeconds
-				case 'w':
-					if (i+1 < argc) {
-						delaySeconds = [NSNumber numberWithFloat:[argValue floatValue]];
-						++i;
-					}
-					break;
-
-                // recordingDuration
-				case 't':
-					if (i+1 < argc) {
-						recordingDuration = [NSNumber numberWithFloat:[argValue floatValue]];
-						++i;
-					}
-					break;
-			}
-		} else  {
-			filePath = arg;
-		}
-	}
-
-	// check we have a file
-	if (filePath == nil) {
-		filePath = DEFAULT_RECORDING_FILENAME;
-		verbose("(no filename specified, using default)\n");
-	}
-
-	// check we have a device
-	if (device == nil) {
-		device = [VideoSnap defaultDevice];
-		if (device == nil) {
-			error("No video devices found! - aborting\n");
-			return 1;
-		} else {
-			verbose("(no device specified, using default)\n");
-		}
-	}
-
-	// check we have a positive non zero duration
-	if ([recordingDuration floatValue] <= 0.0f) {
-		recordingDuration = nil;
-	}
-
-	// check we have a valid encodingPreset
-	NSArray *encodingPresets = [DEFAULT_ENCODING_PRESETS componentsSeparatedByString:@", "];
-	NSArray *validChosenSize = [encodingPresets filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSString *option, NSDictionary *bindings) {
-		return [encodingPreset isEqualToString:option];
-	}]];
-
-	if (!validChosenSize.count) {
-		error("Invalid video preset! (must be one of %s) - aborting\n", [DEFAULT_ENCODING_PRESETS UTF8String]);
-		return 128;
-	}
-
-	// start capturing video, start a run loop
-
-	if ([self startSession:device
-								filePath:filePath
-			 recordingDuration:recordingDuration
-					encodingPreset:encodingPreset
-						delaySeconds:delaySeconds
-								 noAudio:noAudio]) {
-
-		if(recordingDuration != nil) {
-			console("Started capture...\n");
-		} else {
-			console("Started capture (ctrl+c to stop)...\n");
-		}
-		[[NSRunLoop currentRunLoop] run];
-	} else {
-		error("Could not initiate a VideoSnap capture\n");
-	}
-	
-	return 0;
-}
-
-
-/**
- * toggle verbose output in logging
- */
-- (void)setVerbosity:(BOOL)verbosity {
-	isVerbose = verbosity;
-}
-
-
-/**
- * start a capture session on a device, saving to filePath for recordSeconds
+ * Start a capture session on a device, saving to filePath for recordSeconds
  */
 - (BOOL)startSession:(AVCaptureDevice *)videoDevice
             filePath:(NSString *)filePath
@@ -302,7 +309,7 @@
 	verbose("            %s - %s\n",  [[videoDevice modelID] UTF8String], [[videoDevice manufacturer] UTF8String]);
 
 	verbose("(initializing capture session)\n");
-  session = [[AVCaptureSession alloc] init];
+    session = [[AVCaptureSession alloc] init];
 
 	// add video input
 	verbose("(adding video device)\n");
@@ -400,15 +407,15 @@
   return success;
 }
 
-
 /**
- * add audio device to a capture session
+ * Adds an audio device to the capture session, from video device or first available
  */
 - (BOOL)addAudioDevice:(AVCaptureDevice *)videoDevice {
   BOOL success = NO;
   NSError *nserror;
 
   verbose("(adding audio device)\n");
+    
   // if the video device doesn't supply audio, add a default audio device (if possible)
   if (![videoDevice hasMediaType:AVMediaTypeAudio] && ![videoDevice hasMediaType:AVMediaTypeMuxed]) {
 		AVCaptureDevice *audioDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
@@ -430,17 +437,15 @@
 	return success;
 }
 
-
 /**
- * check if we are recording or not
+ * Are we are recording or not?
  */
 - (BOOL)isRecording {
 	return [movieFileOutput isRecording];
 }
 
-
 /**
- * stops recording to the file
+ * Stop recording to the file
  */
 - (void)stopRecording:(int)sigNum {
 	verbose("\n(caught signal: [%d])\n", sigNum);
@@ -450,9 +455,8 @@
 	}
 }
 
-
 /**
- * delegate called when output file has been written to
+ * Called when output file has been written to
  */
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput
 didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL

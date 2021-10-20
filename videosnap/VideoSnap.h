@@ -2,8 +2,7 @@
 //  VideoSnap.h
 //  VideoSnap
 //
-//  Created by Matthew Hutchinson on 18/08/2013.
-//  Copyright (c) 2020 Matthew Hutchinson. All rights reserved.
+//  Created by Matthew Hutchinson
 //
 
 #import <CoreMedia/CoreMedia.h>
@@ -14,64 +13,63 @@
 // logging
 #define error(...) fprintf(stderr, __VA_ARGS__)
 #define console(...) printf(__VA_ARGS__)
-#define verbose(...) (isVerbose && fprintf(stderr, __VA_ARGS__))
-#define verbose_error(...) (isVerbose && fprintf(stderr, __VA_ARGS__))
+#define verbose(...) (self->isVerbose && fprintf(stderr, __VA_ARGS__))
+#define verbose_error(...) (self->isVerbose && fprintf(stderr, __VA_ARGS__))
 
 // VideoSnap
 @interface VideoSnap : NSObject <AVCaptureFileOutputRecordingDelegate> {
-  AVCaptureSession         *session;
-  AVCaptureMovieFileOutput *movieFileOutput;
-  BOOL                     isVerbose;
+    AVCaptureSession         *session;
+    AVCaptureMovieFileOutput *movieFileOutput;
+    NSMutableArray           *connectedDevices;
+    BOOL                     isVerbose;
 }
 
-// class methods
+//
+// Class methods
+//
 
 /**
  * Prints help text to stdout
  */
 +(void)printHelp;
 
+//
+// Instance methods
+//
+
 /**
- * Print connected capture device details to stdout
+ * Initializer, setting verbosity
  */
-+(void)listDevices;
+-(id)initWithVerbosity:(BOOL)verbosity;
 
 /**
- * Returns attached AVCaptureDevice objects that have video. Includes
- * any devices supporting AVMediaTypeVideo and AVMediaTypeMuxed (audio & video)
- *
- * @return NSArray of video devices
- */
-+(NSArray *)videoDevices;
-
-/**
- * Returns the default AVCaptureDevice object for video or nil if none found
- *
- * @return AVCaptureDevice
- */
-+(AVCaptureDevice *)defaultDevice;
-
-/**
- * Returns a AVCaptureDevice matching on localizedName or nil if not found
- *
- * @return AVCaptureDevice
- */
-+(AVCaptureDevice *)deviceNamed:(NSString *)name;
-
-
-// instance methods
-
--(id)init;
-
-/**
- * Process command line args and return ret code
+ * Process command line args and return program ret code
  */
 -(int)processArgs:(NSArray *)arguments;
 
 /**
- * Set verbose mode ON or OFF
+ * Returns the default device (first found)  or nil if none found
+ *
+ * @return AVCaptureDevice
  */
--(void)setVerbosity:(BOOL)verbosity;
+-(AVCaptureDevice *)defaultDevice;
+
+/**
+ * Discover (and wake up) all connected devices
+ */
+-(void)discoverDevices;
+
+/**
+ * List all connected devices by name to stdout
+ */
+-(void)listConnectedDevices;
+
+/**
+ * Returns a device matching on localizedName or nil if not found
+ *
+ * @return AVCaptureDevice
+ */
+-(AVCaptureDevice *)deviceNamed:(NSString *)name;
 
 /**
  * Starts a capture session on a device for recordSeconds saving to filePath 
@@ -83,15 +81,15 @@
 -(BOOL)startSession:(AVCaptureDevice *)device filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds encodingPreset:(NSString *)encodingPreset delaySeconds:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio;
 
 /**
- * Adds an audio device to the capture session, uses the audio from videoDevice
- * if it is available, returns (BOOL) YES if successful
+ * Adds an audio device to the capture session, uses the audio from chosen video device
+ * If the video device doesn't supply audio, add a default audio device (if one is available)
  *
  * @return BOOL
  */
 -(BOOL)addAudioDevice:(AVCaptureDevice *)videoDevice;
 
 /**
- * Delegates isRecording to movieFileOutput
+ * Delegates isRecording to movieFileOutput, returns true or false
  *
  * @return BOOL
  */

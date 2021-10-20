@@ -14,10 +14,10 @@ If no duration is specified, VideoSnap will record until you cancel with
 
 ## Requirements
 
- * OSX 10.7+ (x86_64)
+ * OSX 10.9+ (Intel/M1)
  * A web cam
 
-If you need to capture video on older versions of OSX (or on 32-bit hardware),
+If you need to capture video on older versions of macOS (or on 32-bit hardware),
 try [wacaw](http://webcam-tools.sourceforge.net).
 
 ## Installation
@@ -50,10 +50,10 @@ Capture 10.75 secs of video in 1280x720 720p HD format saving to movie.mov
 
     videosnap -t 10.75 -p '1280x720'
 
-Capture 1 minute of video (Medium preset), but no audio from the "Built-in
-iSight" device, delaying for 5 secs, saving to my_video.mov
+Capture 1 minute of video (Medium preset), but no audio from the "FaceTime HD
+Camera (Built-in)" device, delaying for 5 secs, saving to my_video.mov
 
-    videosnap -t 60 -w 5 -d 'Built-in iSight' --no-audio my_video.mov
+    videosnap -t 60 -w 5 -d 'FaceTime HD Camera (Built-in)' --no-audio video.mov
 
 List all attached devices by name
 
@@ -63,6 +63,9 @@ List all attached devices by name
 
 Since some camera hardware can take a while to warm up, a default delay of 0.5
 seconds is applied. Override this with the `-w` argument (0 meaning no delay).
+
+**NOTE**: Videosnap will also wait 0.5s to allow any connected devices to be
+discovered (e.g. for iOS screen capture).
 
 ### Encoding Presets
 

@@ -2,8 +2,7 @@
 //  Constants.h
 //  videosnap
 //
-//  Created by Matthew Hutchinson on 10/07/2016.
-//  Copyright © 2020 Matthew Hutchinson. All rights reserved.
+//  Created by Matthew Hutchinson
 //
 
 extern NSString *const VERSION;

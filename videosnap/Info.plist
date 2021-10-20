@@ -5,16 +5,16 @@
 	<key>CFBundleDisplayName</key>
 	<string>videosnap</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.hiddenloop.videosnap</string>
+	<string>videosnap.hiddenloop.com</string>
 	<key>CFBundleName</key>
 	<string>videosnap</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.0.6</string>
+	<string>$(MARKETING_VERSION)</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.9</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To capture video from an attached device</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To capture audio from an attached device</string>
-	<key>LSMinimumSystemVersion</key>
-	<string>10.7</string>
 </dict>
 </plist>

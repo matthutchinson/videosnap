@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1200"
+   LastUpgradeVersion = "1300"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -79,7 +79,23 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;">
+               scriptText = "# move man page into place, remove empty folder&#10;PKG_ROOT=&quot;$ARCHIVE_PATH/Products/&quot;&#10;mv &quot;$PKG_ROOT/usr/local/bin/usr/local/share&quot; &quot;$PKG_ROOT/usr/local/share&quot;&#10;rm -r &quot;$PKG_ROOT/usr/local/bin/usr/&quot;&#10;">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "C96492F717C0FD8F005C11A4"
+                     BuildableName = "videosnap"
+                     BlueprintName = "videosnap"
+                     ReferencedContainer = "container:videosnap.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "# From https://scriptingosx.com/2021/07/notarize-a-command-line-tool-with-notarytool/&#10;&#10;# Thanks Scripting OS X!&#10;# Packages, notarizes, staples and places installer .pkg in ./releases&#10;# To follow progress after archiving&#10;#   tail -f notary.log &#10;# Will open releases folder when successfully completed&#10;&#10;# Developer ID Installer cert name&#10;sign_cert=&quot;Developer ID Installer: Hiddenloop Ltd. (8VF6UH3LYN)&quot;&#10;# profile name used with `notarytool --store-credentials`&#10;credential_profile=&quot;videosnap.hiddenloop.com&quot;&#10;&#10;# data from build settings&#10;pkg_name=&quot;$PRODUCT_NAME&quot;&#10;identifier=&quot;$PRODUCT_BUNDLE_IDENTIFIER&quot;&#10;version=&quot;$MARKETING_VERSION&quot;&#10;&#10;PKG_PATH=&quot;$SRCROOT/releases/$pkg_name-$version.pkg&quot;&#10;NOTARY_LOG=&quot;$SRCROOT/notary.log&quot;&#10;&#10;echo &quot;Packaging and Notarizing &apos;$pkg_name&apos;, version: $version&quot; &gt; &quot;$NOTARY_LOG&quot;&#10;date +&quot;%F %T&quot; &gt;&gt; &quot;$NOTARY_LOG&quot;&#10;echo &gt;&gt; &quot;$NOTARY_LOG&quot;&#10;&#10;# usually use `xcodebuild -exportArchive` to get&#10;# the product out of the archive. However, this does not work&#10;# with a command line tool, so we are going direct&#10;PKG_ROOT=&quot;$ARCHIVE_PATH/Products/&quot;&#10;&#10;# create the pkg&#10;pkgbuild --root &quot;$PKG_ROOT&quot; \&#10;         --identifier &quot;$identifier&quot; \&#10;         --version &quot;$version&quot; \&#10;         --install-location &quot;/&quot; \&#10;         --sign &quot;$sign_cert&quot; \&#10;         &quot;$PKG_PATH&quot; &gt;&gt; &quot;$NOTARY_LOG&quot; 2&gt;&amp;1&#10;echo &gt;&gt; &quot;$NOTARY_LOG&quot;&#10;&#10;# notarize&#10;xcrun notarytool submit &quot;$PKG_PATH&quot; \&#10;                 --keychain-profile &quot;$credential_profile&quot; \&#10;                 --wait &gt;&gt; &quot;$NOTARY_LOG&quot; 2&gt;&amp;1&#10;echo &gt;&gt; &quot;$NOTARY_LOG&quot;&#10;&#10;# staple&#10;xcrun stapler staple &quot;$PKG_PATH&quot; &gt;&gt; &quot;$NOTARY_LOG&quot; 2&gt;&amp;1&#10;&#10;# reveal in Finder&#10;open -R &quot;$PKG_PATH&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

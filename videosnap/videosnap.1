@@ -19,10 +19,10 @@
 is an OSX command line tool for recording video and audio from any attached
 capture device.
 .Pp
-You can specify which device to capture from, the duration, encoding and a delay
-period (before capturing starts). You can also disable audio recording.
-By default videosnap will capture both video and audio from the default capture
-device at 30fps, with a Medium quality preset and a short (0.5s) warm-up delay.
+You can specify which device to capture from, the duration, encoding and delay
+period (before capturing starts). You can also disable audio capture. By default
+videosnap will capture video and audio from the first found device at 30fps with
+a Medium quality preset and a short (0.5s) warm-up delay.
 .Pp
 If no duration is specified, videosnap will record until you cancel with [Ctrl+c]
 .Pp
@@ -60,10 +60,11 @@ Capture 10.75 secs of video in 1280x720 720HD format to movie.mov
 -t 10.75 -p '1280x720'
 .Pp
 Capture 1 minute of video (Medium preset), but no audio from the
-"Built-in iSight" device, delaying for 5 secs, saving to my_video.mov
+"FaceTime HD Camera (Built-in)" device, delaying for 5 secs,
+saving to my_video.mov
 .Pp
 .Nm
--t 60 -w 5 -d 'Built-in iSight' --no-audio my_video.mov
+-t 60 -w 5 -d 'FaceTime HD Camera (Built-in)' --no-audio my_video.mov
 .Pp
 .Sh FILES                \" File used or created by the topic of the man page
 .Bl -tag -width "./videosnap" -compact
@@ -74,6 +75,8 @@ videosnap (main executable)
 No known bugs. Please report any issues here: https://github.com/matthutchinson/videosnap/issues
 .Sh HISTORY              \" Document history if command behaves in a unique manner
 .Bl -tag -width -indent
+.It 0.0.7
+2021-Oct-18 Fix issues with connected iOS device discovery and build/test on M1 arch
 .It 0.0.6
 2020-Oct-19 handle UTF-8 encoding correctly for device names, add Apple Developer code signing
 .It 0.0.5
