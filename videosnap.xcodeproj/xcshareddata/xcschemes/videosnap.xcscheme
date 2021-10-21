@@ -50,6 +50,20 @@
             ReferencedContainer = "container:videosnap.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-v"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-l"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-h"
+            isEnabled = "NO">
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -79,7 +93,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Run Script"
-               scriptText = "# move man page into place, remove empty folder&#10;PKG_ROOT=&quot;$ARCHIVE_PATH/Products/&quot;&#10;mv &quot;$PKG_ROOT/usr/local/bin/usr/local/share&quot; &quot;$PKG_ROOT/usr/local/share&quot;&#10;rm -r &quot;$PKG_ROOT/usr/local/bin/usr/&quot;&#10;">
+               scriptText = "# move man page into place, remove empty folder&#10;PKG_ROOT=&quot;$ARCHIVE_PATH/Products/usr/local&quot;&#10;mkdir -p &quot;$PKG_ROOT/share&quot;&#10;mkdir -p &quot;$PKG_ROOT/share/man&quot;&#10;mkdir -p &quot;$PKG_ROOT/share/man/man1&quot;&#10;&#10;mv &quot;$PKG_ROOT/bin/videosnap.1&quot; &quot;$PKG_ROOT/share/man/man1&quot;&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"

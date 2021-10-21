@@ -20,7 +20,7 @@
 		C96492F617C0FD8F005C11A4 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
-			dstPath = usr/local/share/man/man1;
+			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
 				C906028E253DDA1300DC53B0 /* videosnap.1 in Copy Files */,
@@ -221,7 +221,7 @@
 					__info_plist,
 					"$(INFOPLIST_FILE)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hiddenloop.videosnap;
+				PRODUCT_BUNDLE_IDENTIFIER = videosnap.hiddenloop.com;
 				PRODUCT_NAME = videosnap;
 				SDKROOT = macosx;
 			};
@@ -286,7 +286,7 @@
 					__info_plist,
 					"$(INFOPLIST_FILE)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.hiddenloop.videosnap;
+				PRODUCT_BUNDLE_IDENTIFIER = videosnap.hiddenloop.com;
 				PRODUCT_NAME = videosnap;
 				SDKROOT = macosx;
 			};
