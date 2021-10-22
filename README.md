@@ -93,8 +93,8 @@ There are some limitations and issues with iOS screen capturing.
   * (issue) the `--no-audio` flag currently has no effect (workaround: mute the device)
   * (limitation) when capturing, the device will not output any audio (but audio will be recorded to the movie file)
   * (limitation) occasionally the device fails to be discovered, this can happen when
-    ** another process is already capturing from the device
-    ** the macOS kernel fails to connect to the DAL assistant to communicate with the virtual capture device
+    * another process is already capturing from the device
+    * the macOS kernel fails to connect to the DAL assistant to communicate with the virtual capture device
 
 ## Help
 
