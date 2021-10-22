@@ -195,35 +195,19 @@
     return 0;
 }
 
-/**
- * Returns the default device (first found) or nil if none found
- */
-- (AVCaptureDevice *)defaultDevice {
-  return [connectedDevices firstObject];
-}
-
-/**
- * Discover (and wake up) all connected devices
+/*
+ * Discover all video/muxed capture devices
  */
 - (void)discoverDevices {
-    connectedDevices = [NSMutableArray array];
     verbose("(discovering devices)\n");
-    
-    // opt in to see any connected iOS screen capture devices
-    CMIOObjectPropertyAddress prop = {
-        kCMIOHardwarePropertyAllowScreenCaptureDevices,
-        kCMIOObjectPropertyScopeGlobal,
-        kCMIOObjectPropertyElementMaster
-    };
-    UInt32 allow = 1;
-    CMIOObjectSetPropertyData(kCMIOObjectSystemObject, &prop, 0, NULL, sizeof(allow), &allow);
+    connectedDevices = [NSMutableArray array];
+    [self enableScreenCaptureWithDAL];
     
     if (@available(macOS 10.15, *)) {
         AVCaptureDeviceDiscoverySession *discoverySession = [
                 AVCaptureDeviceDiscoverySession
                 discoverySessionWithDeviceTypes:
-                    @[AVCaptureDeviceTypeBuiltInWideAngleCamera,
-                      AVCaptureDeviceTypeExternalUnknown]
+                    @[AVCaptureDeviceTypeBuiltInWideAngleCamera, AVCaptureDeviceTypeExternalUnknown]
                 mediaType:NULL
                 position:AVCaptureDevicePositionUnspecified
             ];
@@ -236,24 +220,36 @@
         [connectedDevices addObjectsFromArray:[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo]];
         [connectedDevices addObjectsFromArray:[AVCaptureDevice devicesWithMediaType:AVMediaTypeMuxed]];
     }
+}
+
+/**
+ * Enable connected devices for ScreenCapture through CoreMedia DAL (Device Abstraction Layer)
+ */
+- (void)enableScreenCaptureWithDAL {
+    verbose("(opting in for connected DAL devices, may delay or fail when connecting to DAL assistant port)\n");
     
-    verbose("(waking up any connected devices, waiting 0.5s) ...\n");
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    id connObserver =[nc addObserverForName:AVCaptureDeviceWasConnectedNotification
-                                        object:nil
-                                         queue:[NSOperationQueue mainQueue]
-                                    usingBlock:^(NSNotification *note) {
-        
-        AVCaptureDevice* connectedDevice = (AVCaptureDevice*)note.object;
-        if([connectedDevice hasMediaType:AVMediaTypeMuxed] || [connectedDevice hasMediaType:AVMediaTypeVideo]) {
-          [self->connectedDevices addObject: connectedDevice];
-          verbose("  work up: %s\n", [[connectedDevice localizedName] UTF8String]);
+    Boolean isSettable = false;
+    UInt32 isAllowed;
+    CMIOObjectPropertyAddress prop = {
+        kCMIOHardwarePropertyAllowScreenCaptureDevices,
+        kCMIOObjectPropertyScopeGlobal,
+        kCMIOObjectPropertyElementMaster
+    };
+    
+    CMIOObjectIsPropertySettable(kCMIOObjectSystemObject, &prop, &isSettable);
+    
+    if(isSettable) {
+        CMIOObjectGetPropertyData(kCMIOObjectSystemObject, &prop, 0, NULL, sizeof(UInt32), &isAllowed, &isAllowed);
+        if(isAllowed != 1) {
+            verbose("(opting in for screen capture devices)\n");
+            UInt32 allow = 1;
+            CMIOObjectSetPropertyData(kCMIOObjectSystemObject, &prop, 0, NULL, sizeof(UInt32), &allow);
+            verbose("(waiting 2 secs for devices to connect to DAL assistant)\n");
+            [[NSRunLoop currentRunLoop] runUntilDate:[[[NSDate alloc] init] dateByAddingTimeInterval: 2]];
         }
-    }];
-    
-    // wait, 0.5 sec in a run loop
-    [[NSRunLoop currentRunLoop] runUntilDate:[[[NSDate alloc] init] dateByAddingTimeInterval: 0.5]];
-    [nc removeObserver:connObserver];
+    } else {
+        verbose("(Can't opt-in for screen capture devices)\n");
+    }
 }
 
 /**
@@ -269,6 +265,13 @@
 	} else {
 		console("No video devices found.\n");
 	}
+}
+
+/**
+ * Returns the default device (first found) or nil if none found
+ */
+- (AVCaptureDevice *)defaultDevice {
+  return [connectedDevices firstObject];
 }
 
 /**

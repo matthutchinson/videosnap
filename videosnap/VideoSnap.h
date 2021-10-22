@@ -48,21 +48,26 @@
 -(int)processArgs:(NSArray *)arguments;
 
 /**
- * Returns the default device (first found)  or nil if none found
- *
- * @return AVCaptureDevice
- */
--(AVCaptureDevice *)defaultDevice;
-
-/**
- * Discover (and wake up) all connected devices
+ * Discover all video/muxed capture devices
  */
 -(void)discoverDevices;
+
+/**
+ * Enable connected devices for ScreenCapture through CoreMedia DAL (Device Abstraction Layer)
+ */
+- (void)enableScreenCaptureWithDAL;
 
 /**
  * List all connected devices by name to stdout
  */
 -(void)listConnectedDevices;
+
+/**
+ * Returns the default device (first found)  or nil if none found
+ *
+ * @return AVCaptureDevice
+ */
+-(AVCaptureDevice *)defaultDevice;
 
 /**
  * Returns a device matching on localizedName or nil if not found

@@ -56,8 +56,20 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "-h"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-l"
-            isEnabled = "YES">
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-d &quot;Matt&apos;s iPhone&quot;"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-l"
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "-h"
