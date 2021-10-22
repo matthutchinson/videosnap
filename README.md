@@ -1,6 +1,6 @@
 # VideoSnap
 
-VideoSnap is an OSX command line tool for recording video and audio from any
+VideoSnap is an macOS command line tool for recording video and audio from any
 attached capture device (including any attached iOS device).
 
 You can specify which device to capture from, the duration, encoding and a delay
@@ -14,11 +14,11 @@ If no duration is specified, VideoSnap will record until you cancel with
 
 ## Requirements
 
- * OSX 10.9+ (Intel/M1)
+ * macOS 10.9+ (Intel/M1)
  * A web cam
 
-If you need to capture video on older versions of macOS (or on 32-bit hardware),
-try [wacaw](http://webcam-tools.sourceforge.net).
+If you need to capture video on older versions of macOS (e.g. 32-bit) try
+[wacaw](http://webcam-tools.sourceforge.net)
 
 ## Installation
 
@@ -81,6 +81,17 @@ The AVFoundation framework provides the following video encoding presets:
 
 Use the `-p` flag to choose a preset.
 
+### Capturing from connected iOS devices
+
+It is possible to screen capture video & audio from any attached iOS device,
+however there are some limitations and issues with this.
+
+  * (issue) the `--no-audio` flag currently has no effect (workaround: mute the device)
+  * (limitation) when capturing, the device will not output any audio (but audio will be recorded to the movie file)
+  * (limitation) occasionally the device fails to be discovered, this can happen when
+    ** another process is already capturing from the device
+    ** the macOS kernel fails to connect to the DAL assistant to communicate with the virtual capture device
+
 ## Help
 
 Get command help with:
@@ -93,6 +104,30 @@ If you have any problems, please do [raise an
 issue](https://github.com/matthutchinson/videosnap/issues) on GitHub. When
 reporting a bug, remember to mention what platform and hardware you are using
 and the steps I can take to reproduce the issue.
+
+## Development
+
+I try to keep the project up to date with the latest general XCode release.
+
+After opening `videosnap.xcodeproj`, you can set the arguments passed to the
+command when it runs in XCode, simply edit the `Run` action in the default
+`videosnap` Scheme. (Product -> Scheme -> Edit Scheme...)
+
+You can also build the project from the command line. After cloning run;
+
+   xcodebuild clean install
+   # you'll find the build executable at
+   ./build/Debug/videosnap
+   # which symlinks to here
+   ./build/pkgroot/usr/local/bin/videosnap
+
+If you see this message
+
+    xcode-select: error: tool 'xcodebuild' requires Xcode, but active developer directory "..."
+
+Then try something like this to fix your environment
+
+    sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
 
 ## Contributing
 
