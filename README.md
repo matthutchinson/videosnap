@@ -113,19 +113,21 @@ After opening `videosnap.xcodeproj`, you can set the arguments passed to the
 command when it runs in XCode, simply edit the `Run` action in the default
 `videosnap` Scheme. (Product -> Scheme -> Edit Scheme...)
 
-You can also build the project from the command line. After cloning run;
+You can also build the project from the command line. After cloning run:
 
-   xcodebuild clean install
-   # you'll find the build executable at
-   ./build/Debug/videosnap
-   # which symlinks to here
-   ./build/pkgroot/usr/local/bin/videosnap
+```
+  xcodebuild clean install
+  # you'll find the build executable at
+  ./build/Debug/videosnap
+  # which symlinks to here
+  ./build/pkgroot/usr/local/bin/videosnap
+```
 
-If you see this message
+If you see this message:
 
     xcode-select: error: tool 'xcodebuild' requires Xcode, but active developer directory "..."
 
-Then try something like this to fix your environment
+Try this to fix your environment:
 
     sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
 
