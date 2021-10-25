@@ -54,7 +54,7 @@ Show help
 .Pp
 .Sh EXAMPLES
 .Pp
-Capture 10.75 secs of video in 1280x720 720HD format to movie.mov
+Capture 10.75 secs of video in 1280x720 720HD format to movie-{timestamp}.mov
 .Pp
 .Nm
 -t 10.75 -p '1280x720'
@@ -75,6 +75,8 @@ videosnap (main executable)
 No known bugs. Please report any issues here: https://github.com/matthutchinson/videosnap/issues
 .Sh HISTORY              \" Document history if command behaves in a unique manner
 .Bl -tag -width -indent
+.It 0.0.8
+2021-Oct-25 Default filename now includes a date/time stamp
 .It 0.0.7
 2021-Oct-18 Fix issues with connected iOS device discovery and build/test on M1 arch
 .It 0.0.6

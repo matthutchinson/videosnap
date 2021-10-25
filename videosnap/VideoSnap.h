@@ -62,6 +62,12 @@
  */
 -(void)listConnectedDevices;
 
+
+/**
+  * Get default generated filename
+  */
+ -(NSString *)defaultGeneratedFilename;
+
 /**
  * Returns the default device (first found)  or nil if none found
  *

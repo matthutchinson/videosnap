@@ -46,12 +46,13 @@ The following options are available:
 
 ### Examples
 
-Capture 10.75 secs of video in 1280x720 720p HD format saving to movie.mov
+Capture 10.75 secs of video in 1280x720 720p HD format saving to
+movie-{timestamp}.mov
 
     videosnap -t 10.75 -p '1280x720'
 
 Capture 1 minute of video (Medium preset), but no audio from the "FaceTime HD
-Camera (Built-in)" device, delaying for 5 secs, saving to my_video.mov
+Camera (Built-in)" device, delaying for 5 secs, saving to video.mov
 
     videosnap -t 60 -w 5 -d 'FaceTime HD Camera (Built-in)' --no-audio video.mov
 

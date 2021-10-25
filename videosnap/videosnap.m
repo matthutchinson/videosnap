@@ -59,7 +59,7 @@
  *       http://perspx.com/archives/parsing-command-line-arguments-nsuserdefaults/
  */
 - (int)processArgs:(NSArray *)arguments {
-    
+
     // argument defaults
     AVCaptureDevice *device;
     NSString        *filePath;
@@ -67,9 +67,9 @@
     NSNumber        *delaySeconds      = [NSNumber numberWithFloat:DEFAULT_RECORDING_DELAY];
     NSNumber        *recordingDuration = nil;
     BOOL            noAudio            = NO;
-     
+
     int argc = (int)[arguments count];
-    
+
     // only discover devices if we need to
     if([arguments indexOfObject:@"-h"] != NSNotFound) {
         [VideoSnap printHelp];
@@ -77,7 +77,7 @@
     } else {
         [self discoverDevices];
     }
-    
+
     for (int i = 1; i < argc; i++) {
         NSString *argValue;
         NSString *arg = [arguments objectAtIndex: i];
@@ -89,11 +89,11 @@
 
         // check for switches
         if ([arg characterAtIndex:0] == '-') {
-            
+
             if([arg isEqualToString: @"--no-audio"]) {
                 noAudio = YES;
             }
-            
+
             switch ([arg characterAtIndex:1]) {
                 // list devices
                 case 'l':
@@ -144,8 +144,8 @@
 
     // check we have a file
     if (filePath == nil) {
-        filePath = DEFAULT_RECORDING_FILENAME;
-        verbose("(no filename specified, using default)\n");
+        filePath = [self defaultGeneratedFilename];
+        verbose("(no filename specified, using default: %s)\n", [filePath UTF8String]);
     }
 
     // check we have a device
@@ -202,7 +202,7 @@
     verbose("(discovering devices)\n");
     connectedDevices = [NSMutableArray array];
     [self enableScreenCaptureWithDAL];
-    
+
     if (@available(macOS 10.15, *)) {
         AVCaptureDeviceDiscoverySession *discoverySession = [
                 AVCaptureDeviceDiscoverySession
@@ -227,7 +227,7 @@
  */
 - (void)enableScreenCaptureWithDAL {
     verbose("(opting in for connected DAL devices, may delay or fail when connecting to DAL assistant port)\n");
-    
+
     Boolean isSettable = false;
     UInt32 isAllowed;
     CMIOObjectPropertyAddress prop = {
@@ -235,9 +235,9 @@
         kCMIOObjectPropertyScopeGlobal,
         kCMIOObjectPropertyElementMaster
     };
-    
+
     CMIOObjectIsPropertySettable(kCMIOObjectSystemObject, &prop, &isSettable);
-    
+
     if(isSettable) {
         CMIOObjectGetPropertyData(kCMIOObjectSystemObject, &prop, 0, NULL, sizeof(UInt32), &isAllowed, &isAllowed);
         if(isAllowed != 1) {
@@ -266,6 +266,13 @@
 		console("No video devices found.\n");
 	}
 }
+
+- (NSString *)defaultGeneratedFilename {
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd-HHmmss"];
+
+    return [@[@"movie-", [dateFormatter stringFromDate:[NSDate date]], @".mov"] componentsJoinedByString:@""];
+ }
 
 /**
  * Returns the default device (first found) or nil if none found
@@ -418,7 +425,7 @@
   NSError *nserror;
 
   verbose("(adding audio device)\n");
-    
+
   // if the video device doesn't supply audio, add a default audio device (if possible)
   if (![videoDevice hasMediaType:AVMediaTypeAudio] && ![videoDevice hasMediaType:AVMediaTypeMuxed]) {
 		AVCaptureDevice *audioDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];

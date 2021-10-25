@@ -8,13 +8,11 @@
 #import <Foundation/Foundation.h>
 #import "Constants.h"
 
-NSString *const VERSION = @"0.0.7";
+NSString *const VERSION = @"0.0.8";
 
-int   const DEFAULT_FRAMES_PER_SECOND  = 30;
-float const DEFAULT_RECORDING_DELAY    = 0.5;
-
-NSString *const DEFAULT_RECORDING_FILENAME = @"movie.mov";
-NSString *const DEFAULT_ENCODING_PRESET    = @"Medium";
+int   const DEFAULT_FRAMES_PER_SECOND = 30;
+float const DEFAULT_RECORDING_DELAY = 0.5;
+NSString *const DEFAULT_ENCODING_PRESET = @"Medium";
 
 // encoding preset options:
 // High - Highest recording quality (varies per device)
