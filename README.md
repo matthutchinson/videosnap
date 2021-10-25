@@ -84,14 +84,19 @@ Use the `-p` flag to choose a preset.
 
 ### Capturing from connected iOS devices
 
-It is possible to screen capture video & audio from any attached iOS device,
-however there are some limitations and issues with this.
+It is possible to screen capture video & audio from an attached iOS device. 
+
+For the device to be discovered you must confirm that you 
+**Trust This Computer** on the device when it is connected and unlocked.
+
+There are some limitations and issues with iOS screen capturing.
 
   * (issue) the `--no-audio` flag currently has no effect (workaround: mute the device)
+  * (issue) currently broken on M1 macs (due to [this error](https://developer.apple.com/forums/thread/677199?login=true&page=1#692431022))
   * (limitation) when capturing, the device will not output any audio (but audio will be recorded to the movie file)
   * (limitation) occasionally the device fails to be discovered, this can happen when
-    ** another process is already capturing from the device
-    ** the macOS kernel fails to connect to the DAL assistant to communicate with the virtual capture device
+    * another process is already capturing from the device
+    * the macOS kernel fails to connect to the DAL assistant to communicate with the virtual capture device
 
 ## Help
 
