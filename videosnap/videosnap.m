@@ -62,7 +62,6 @@
 
     // argument defaults
     AVCaptureDevice *device;
-    NSString        *filePath;
     NSString        *encodingPreset    = DEFAULT_ENCODING_PRESET;
     NSNumber        *delaySeconds      = [NSNumber numberWithFloat:DEFAULT_RECORDING_DELAY];
     NSNumber        *recordingDuration = nil;
@@ -177,7 +176,6 @@
 
     // start capturing video, start a run loop
     if ([self startSession:device
-                                filePath:filePath
               recordingDuration:recordingDuration
                     encodingPreset:encodingPreset
                         delaySeconds:delaySeconds
@@ -186,7 +184,7 @@
         if(recordingDuration != nil) {
             console("Started capture...\n");
         } else {
-            console("Started capture (ctrl+c to stop)...\n");
+            console("Started capture (ctrl+c to stop, ctrl+z to pause) ...\n");
         }
         [[NSRunLoop currentRunLoop] run];
     } else {
@@ -299,7 +297,6 @@
  * Start a capture session on a device, saving to filePath for recordSeconds
  */
 - (BOOL)startSession:(AVCaptureDevice *)videoDevice
-            filePath:(NSString *)filePath
    recordingDuration:(NSNumber *)recordingDuration
 			encodingPreset:(NSString *)encodingPreset
 				delaySeconds:(NSNumber *)delaySeconds
@@ -344,7 +341,7 @@
 		// set capture frame rate (fps)
 		int32_t fps = DEFAULT_FRAMES_PER_SECOND;
 		verbose("(set capture framerate to %i fps)\n", fps);
-		AVCaptureConnection *conn = [movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
+		conn = [movieFileOutput connectionWithMediaType:AVMediaTypeVideo];
 		if([conn isVideoMinFrameDurationSupported]) {
 			conn.videoMinFrameDuration = CMTimeMake(1, fps);
 		}
@@ -415,6 +412,21 @@
   }
 
   return success;
+}
+
+/**
+  * Toggle pause/resume recording to the file
+  */
+- (void)togglePauseRecording:(int)sigNum {
+    verbose("\n(caught signal: [%d])\n", sigNum);
+    
+    if([movieFileOutput isRecordingPaused]) {
+        fprintf(stderr, "\nResuming capture ...\n");
+        [movieFileOutput resumeRecording];
+    } else {
+        fprintf(stderr, "\nPausing capture ... (ctrl+z to resume, ctrl+c to stop)\n");
+        [movieFileOutput pauseRecording];
+    }
 }
 
 /**

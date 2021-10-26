@@ -12,16 +12,18 @@
 
 // logging
 #define error(...) fprintf(stderr, __VA_ARGS__)
-#define console(...) printf(__VA_ARGS__)
-#define verbose(...) (self->isVerbose && fprintf(stderr, __VA_ARGS__))
+#define console(...) fprintf(stdout, __VA_ARGS__)
+#define verbose(...) (self->isVerbose && fprintf(stdout, __VA_ARGS__))
 #define verbose_error(...) (self->isVerbose && fprintf(stderr, __VA_ARGS__))
 
 // VideoSnap
 @interface VideoSnap : NSObject <AVCaptureFileOutputRecordingDelegate> {
-    AVCaptureSession         *session;
+    AVCaptureSession *session;
+    AVCaptureConnection *conn;
     AVCaptureMovieFileOutput *movieFileOutput;
-    NSMutableArray           *connectedDevices;
-    BOOL                     isVerbose;
+    NSMutableArray *connectedDevices;
+    BOOL isVerbose;
+    NSString *filePath;
 }
 
 //
@@ -62,7 +64,6 @@
  */
 -(void)listConnectedDevices;
 
-
 /**
   * Get default generated filename
   */
@@ -89,7 +90,12 @@
  *
  * @return BOOL
  */
--(BOOL)startSession:(AVCaptureDevice *)device filePath:(NSString *)path recordingDuration:(NSNumber *)recordSeconds encodingPreset:(NSString *)encodingPreset delaySeconds:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio;
+-(BOOL)startSession:(AVCaptureDevice *)device recordingDuration:(NSNumber *)recordSeconds encodingPreset:(NSString *)encodingPreset delaySeconds:(NSNumber *)delaySeconds noAudio:(BOOL)noAudio;
+
+/**
+  * Delegates togglePauseRecording to movieFileOutput, with SIGINT value from handler
+  */
+ -(void)togglePauseRecording:(int)sigNum;
 
 /**
  * Adds an audio device to the capture session, uses the audio from chosen video device

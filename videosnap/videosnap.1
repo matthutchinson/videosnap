@@ -25,6 +25,7 @@ videosnap will capture video and audio from the first found device at 30fps with
 a Medium quality preset and a short (0.5s) warm-up delay.
 .Pp
 If no duration is specified, videosnap will record until you cancel with [Ctrl+c]
+You can pause (and resume) recording with [Ctrl+z].
 .Pp
 You can also use
 .Nm
@@ -76,7 +77,7 @@ No known bugs. Please report any issues here: https://github.com/matthutchinson/
 .Sh HISTORY              \" Document history if command behaves in a unique manner
 .Bl -tag -width -indent
 .It 0.0.8
-2021-Oct-25 Default filename now includes a date/time stamp
+2021-Oct-27 Default filename postfixed with timestamp, Ctrl+z to pause/resume capture
 .It 0.0.7
 2021-Oct-18 Fix issues with connected iOS device discovery and build/test on M1 arch
 .It 0.0.6

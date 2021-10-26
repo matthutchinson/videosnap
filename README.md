@@ -1,23 +1,25 @@
 # VideoSnap
 
 VideoSnap is an macOS command line tool for recording video and audio from any
-attached capture device (including any attached iOS device).
+attached capture device (including screen capture from connected iOS devices).
 
-You can specify which device to capture from, the duration, encoding and a delay
-period (before capturing starts). You can also disable audio recording.
+You can specify which device to capture from (by device name), the duration,
+encoding and a delay period (before capturing starts).
 
 By default VideoSnap will capture both video and audio from the default capture
 device at 30fps, with a Medium quality preset and a short (0.5s) warm-up delay.
 
 If no duration is specified, VideoSnap will record until you cancel with
-[Ctrl+c]. You can also use VideoSnap to list attached capture devices by name.
+[Ctrl+c] or you can pause (and resume) recording with [Ctrl+z].
+
+VideoSnap can list attached capture devices by name.
 
 ## Requirements
 
  * macOS 10.9+ (Intel/M1)
- * A web cam
+ * A web cam or iOS device
 
-If you need to capture video on older versions of macOS (e.g. 32-bit) try
+If you need to capture video on older versions of macOS (e.g. 32-bit OSX) try
 [wacaw](http://webcam-tools.sourceforge.net)
 
 ## Installation
@@ -84,9 +86,9 @@ Use the `-p` flag to choose a preset.
 
 ### Capturing from connected iOS devices
 
-It is possible to screen capture video & audio from an attached iOS device. 
+It is possible to screen capture video & audio from an attached iOS device.
 
-For the device to be discovered you must confirm that you 
+For the device to be discovered you must confirm that you
 **Trust This Computer** on the device when it is connected and unlocked.
 
 There are some limitations and issues with iOS screen capturing.
@@ -166,7 +168,6 @@ If you'd like to get involved in contributing, here are some ideas:
 
 * Allow VideoSnap to pipe captured bytes to the STDOUT stream
 * Submit VideoSnap as a package for [Homebrew](http://brew.sh)
-* Default filename should include a timestamp of when recording began
 * Allow more size/quality options for video and/or audio
 * Smile detection while capturing video/image, determine a happiness factor/score
 * Allow VideoSnap to capture a single frame to an image file (with compression

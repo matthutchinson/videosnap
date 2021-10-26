@@ -9,6 +9,13 @@ adheres to [Semantic Versioning](Semver).
 
 - Your contribution here!
 
+## [0.0.8] - 2020-Oct-27
+### Added
+- Ctrl+z to pause/resume capture
+
+### Changed
+- Default filename postfixed with timestamp
+
 ## [0.0.7] - 2020-Oct-19
 ### Added
 - Fix issues with connected iOS device discovery and build/test on M1 arch
@@ -58,7 +65,8 @@ adheres to [Semantic Versioning](Semver).
 ### Changed
 - Initial release (using the QTKit framework)
 
-[Unreleased]: https://github.com/matthutchinson/videosnap/compare/v0.0.7...HEAD
+[Unreleased]: https://github.com/matthutchinson/videosnap/compare/v0.0.8...HEAD
+[0.0.8]: https://github.com/matthutchinson/videosnap/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/matthutchinson/videosnap/compare/v0.0.5...v0.0.7
 [0.0.5]: https://github.com/matthutchinson/videosnap/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/matthutchinson/videosnap/compare/v0.0.3...v0.0.4
