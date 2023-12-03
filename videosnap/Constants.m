@@ -20,5 +20,7 @@ NSString *const DEFAULT_ENCODING_PRESET = @"Medium";
 // Low - Suitable for 3G sharing (actual values may change)
 // 640x480 - 640x480 VGA (check its supported before setting it)
 // 1280x720 - 1280x720 720p HD (check its supported before setting it)
+// 1920x1080 - 1920x1080 Full HD (check its supported before setting it)
+// 3840x2160 - 3840x2160 HD4k (check its supported before setting it)
 
-NSString *const DEFAULT_ENCODING_PRESETS   = @"High, Medium, Low, 640x480, 1280x720";
+NSString *const DEFAULT_ENCODING_PRESETS   = @"High, Medium, Low, 640x480, 1280x720, 1920x1080, 3840x2160";
