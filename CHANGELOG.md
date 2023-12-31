@@ -9,6 +9,14 @@ adheres to [Semantic Versioning](Semver).
 
 - Your contribution here!
 
+## [0.0.9] - 2023-Dec-31
+### Added
+- Adding Full HD and HD4k format options (PR #[28](https://github.com/matthutchinson/videosnap/pull/28)) - thanks @vlussenburg
+
+### Changed
+- Updated for latest XCode (15)
+- Min OS version now 10.14.6
+
 ## [0.0.8] - 2020-Oct-27
 ### Added
 - Ctrl+z to pause/resume capture
@@ -65,7 +73,8 @@ adheres to [Semantic Versioning](Semver).
 ### Changed
 - Initial release (using the QTKit framework)
 
-[Unreleased]: https://github.com/matthutchinson/videosnap/compare/v0.0.8...HEAD
+[Unreleased]: https://github.com/matthutchinson/videosnap/compare/v0.0.9...HEAD
+[0.0.8]: https://github.com/matthutchinson/videosnap/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/matthutchinson/videosnap/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/matthutchinson/videosnap/compare/v0.0.5...v0.0.7
 [0.0.5]: https://github.com/matthutchinson/videosnap/compare/v0.0.4...v0.0.5
