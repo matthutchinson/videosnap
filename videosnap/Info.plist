@@ -11,7 +11,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>10.9</string>
+	<string>10.14.6</string>
 	<key>NSCameraUsageDescription</key>
 	<string>To capture video from an attached device</string>
 	<key>NSMicrophoneUsageDescription</key>
